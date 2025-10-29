@@ -209,6 +209,59 @@ async def upload_image_gemini_format(data: dict):
         )
 
 
+@app.post("/images/save")
+async def save_image_custom_format(data: dict):
+    """
+    Endpoint para el formato específico del frontend
+    Formato esperado: {
+        "image_data_base64": "...",
+        "mime_type": "image/jpeg",
+        "style": "...",
+        "timestamp": ...,
+        "user_id": "..."
+    }
+    """
+    try:
+        # Extraer datos del formato del frontend
+        image_data = data.get("image_data_base64")
+        mime_type = data.get("mime_type", "image/jpeg")
+        style = data.get("style", "")
+        timestamp = data.get("timestamp")
+        user_id = data.get("user_id", "")
+
+        if not image_data:
+            raise HTTPException(status_code=400, detail="image_data_base64 is required")
+
+        # Validar base64
+        try:
+            decoded_data = base64.b64decode(image_data)
+            if len(decoded_data) < 10:
+                raise HTTPException(status_code=400, detail="Image data too small")
+        except (binascii.Error, ValueError) as e:
+            raise HTTPException(
+                status_code=400, detail=f"Invalid base64 format: {str(e)}"
+            )
+
+        # Guardar en la base de datos
+        image_id = insert_image(image_data)
+
+        return {
+            "success": True,
+            "id": image_id,
+            "message": "Image saved successfully",
+            "mime_type": mime_type,
+            "size_bytes": len(decoded_data),
+            "style": style,
+            "timestamp": timestamp,
+            "user_id": user_id,
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
 @app.post("/images/test")
 async def test_image_endpoint(data: dict):
     """

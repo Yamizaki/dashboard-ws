@@ -4,7 +4,7 @@ from pydantic import BaseModel
 import base64
 import binascii
 import json
-from database_simple import insert_image, insert_user, get_image, get_user
+from database_simple import insert_image, insert_user, get_image, get_user, get_all_images, get_all_users
 
 app = FastAPI(title="Image & User API", version="1.0.0")
 
@@ -143,6 +143,62 @@ async def get_user_by_id(user_id: int):
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
+
+@app.get("/images/")
+async def list_images(limit: int = 50, offset: int = 0):
+    """
+    Listar todas las imágenes almacenadas con paginación
+    - limit: número máximo de imágenes a retornar (default: 50, max: 100)
+    - offset: número de imágenes a saltar para paginación (default: 0)
+    """
+    # Validar límites
+    if limit > 100:
+        limit = 100
+    if limit < 1:
+        limit = 1
+    if offset < 0:
+        offset = 0
+    
+    result = get_all_images(limit, offset)
+    
+    return {
+        "success": True,
+        "data": result["images"],
+        "pagination": {
+            "total": result["total"],
+            "limit": result["limit"],
+            "offset": result["offset"],
+            "has_more": (result["offset"] + result["limit"]) < result["total"]
+        }
+    }
+
+@app.get("/users/")
+async def list_users(limit: int = 50, offset: int = 0):
+    """
+    Listar todos los usuarios almacenados con paginación
+    - limit: número máximo de usuarios a retornar (default: 50, max: 100)
+    - offset: número de usuarios a saltar para paginación (default: 0)
+    """
+    # Validar límites
+    if limit > 100:
+        limit = 100
+    if limit < 1:
+        limit = 1
+    if offset < 0:
+        offset = 0
+    
+    result = get_all_users(limit, offset)
+    
+    return {
+        "success": True,
+        "data": result["users"],
+        "pagination": {
+            "total": result["total"],
+            "limit": result["limit"],
+            "offset": result["offset"],
+            "has_more": (result["offset"] + result["limit"]) < result["total"]
+        }
+    }
 
 
 @app.get("/")

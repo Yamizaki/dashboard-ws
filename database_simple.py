@@ -121,7 +121,7 @@ def get_all_images(limit: int = 50, offset: int = 0):
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT id, created_at FROM images ORDER BY created_at DESC LIMIT ? OFFSET ?",
+        "SELECT id, created_at, image_data FROM images ORDER BY created_at DESC LIMIT ? OFFSET ?",
         (limit, offset),
     )
 
@@ -135,7 +135,7 @@ def get_all_images(limit: int = 50, offset: int = 0):
 
     images = []
     for result in results:
-        images.append({"id": result[0], "created_at": result[1]})
+        images.append({"id": result[0], "created_at": result[1], "image_data": result[2]})
 
     return {"images": images, "total": total, "limit": limit, "offset": offset}
 

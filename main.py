@@ -23,34 +23,86 @@ app = FastAPI(title="Image & User API", version="1.0.0")
 # Montar archivos estáticos
 app.mount("/static", StaticFiles(directory="templates"), name="static")
 
-def process_template(template_path: str, request: Request, replacements: dict = None) -> str:
+
+def process_template(
+    template_path: str, request: Request, replacements: dict = None
+) -> str:
     """
     Procesa un template HTML reemplazando URLs dinámicamente
     """
     with open(template_path, "r", encoding="utf-8") as file:
         html_template = file.read()
-    
-    # Reemplazos automáticos basados en el request
+
+    # Obtener URLs dinámicas basadas en el request
     base_url = config.get_api_base_url(request)
-    
-    # Reemplazos por defecto
-    default_replacements = {
-        'this.apiUrl = "http://127.0.0.1:8000/users/";': f'this.apiUrl = "{config.get_users_endpoint(request)}";',
-        'this.apiUrl = "http://localhost:8000/users/";': f'this.apiUrl = "{config.get_users_endpoint(request)}";',
-        'this.apiUrl = "http://localhost:8000/images";': f'this.apiUrl = "{config.get_images_endpoint(request)}";',
-        '"http://localhost:8000/images/save"': f'"{base_url}/images/save"',
-        '"http://127.0.0.1:8000/images/save"': f'"{base_url}/images/save"',
-    }
-    
+    users_endpoint = config.get_users_endpoint(request)
+    images_endpoint = config.get_images_endpoint(request)
+
+    print(f"🔄 Processing template: {template_path}")
+    print(f"   Base URL: {base_url}")
+    print(f"   Users endpoint: {users_endpoint}")
+    print(f"   Images endpoint: {images_endpoint}")
+
+    # Lista completa de patrones a reemplazar
+    url_patterns = [
+        # Patrones para usuarios
+        (
+            'this.apiUrl = "http://127.0.0.1:8000/users/";',
+            f'this.apiUrl = "{users_endpoint}";',
+        ),
+        (
+            'this.apiUrl = "http://localhost:8000/users/";',
+            f'this.apiUrl = "{users_endpoint}";',
+        ),
+        # Patrones para imágenes - TODOS LOS CASOS POSIBLES
+        (
+            'this.apiUrl = "http://localhost:8000/images";',
+            f'this.apiUrl = "{images_endpoint}";',
+        ),
+        (
+            'this.apiUrl = "http://127.0.0.1:8000/images";',
+            f'this.apiUrl = "{images_endpoint}";',
+        ),
+        (
+            'this.apiUrl = "http://localhost:8000/images/";',
+            f'this.apiUrl = "{images_endpoint}/";',
+        ),
+        (
+            'this.apiUrl = "http://127.0.0.1:8000/images/";',
+            f'this.apiUrl = "{images_endpoint}/";',
+        ),
+        # Patrones para endpoints específicos
+        ('"http://localhost:8000/images/save"', f'"{base_url}/images/save"'),
+        ('"http://127.0.0.1:8000/images/save"', f'"{base_url}/images/save"'),
+        ("'http://localhost:8000/images/save'", f"'{base_url}/images/save'"),
+        ("'http://127.0.0.1:8000/images/save'", f"'{base_url}/images/save'"),
+        # Patrones genéricos para cualquier puerto
+        ("http://localhost:8000/", f"{base_url}/"),
+        ("http://127.0.0.1:8000/", f"{base_url}/"),
+        ("http://localhost:8025/", f"{base_url}/"),
+        ("http://127.0.0.1:8025/", f"{base_url}/"),
+        # Comentarios que pueden contener URLs
+        ("// Cambia por tu endpoint", f"// Auto-generated: {base_url}"),
+        ("# Cambia por tu endpoint", f"# Auto-generated: {base_url}"),
+    ]
+
     # Agregar reemplazos personalizados si se proporcionan
     if replacements:
-        default_replacements.update(replacements)
-    
+        for old, new in replacements.items():
+            url_patterns.append((old, new))
+
     # Aplicar todos los reemplazos
-    for old_text, new_text in default_replacements.items():
-        html_template = html_template.replace(old_text, new_text)
-    
+    replacements_made = 0
+    for old_text, new_text in url_patterns:
+        if old_text in html_template:
+            html_template = html_template.replace(old_text, new_text)
+            replacements_made += 1
+            print(f"   ✅ Replaced: {old_text[:50]}... -> {new_text[:50]}...")
+
+    print(f"   📊 Total replacements made: {replacements_made}")
+
     return html_template
+
 
 # Configurar CORS para permitir todas las conexiones (solo para desarrollo)
 app.add_middleware(
@@ -219,6 +271,7 @@ async def list_users(limit: int = 50, offset: int = 0):
 async def root():
     return {"message": "Image & User API is running"}
 
+
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return FileResponse("favicon.ico")
@@ -350,6 +403,7 @@ async def test_image_endpoint(data: dict):
 
 # ==================== DATABASE MANAGEMENT ENDPOINTS ====================
 
+
 @app.get("/database/stats")
 async def get_db_stats():
     """
@@ -360,10 +414,12 @@ async def get_db_stats():
         return {
             "success": True,
             "message": "Database statistics retrieved successfully",
-            "data": stats
+            "data": stats,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error getting database stats: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error getting database stats: {str(e)}"
+        )
 
 
 @app.post("/database/reset")
@@ -375,22 +431,24 @@ async def reset_db():
     try:
         # Obtener estadísticas antes del reset
         stats_before = get_database_stats()
-        
+
         # Resetear la base de datos
         reset_database()
-        
+
         # Obtener estadísticas después del reset
         stats_after = get_database_stats()
-        
+
         return {
             "success": True,
             "message": "Database reset successfully",
             "warning": "All data has been permanently deleted",
             "stats_before": stats_before,
-            "stats_after": stats_after
+            "stats_after": stats_after,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error resetting database: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error resetting database: {str(e)}"
+        )
 
 
 @app.post("/database/clear")
@@ -402,22 +460,24 @@ async def clear_db():
     try:
         # Obtener estadísticas antes de limpiar
         stats_before = get_database_stats()
-        
+
         # Limpiar todos los datos
         clear_all_data()
-        
+
         # Obtener estadísticas después de limpiar
         stats_after = get_database_stats()
-        
+
         return {
             "success": True,
             "message": "Database cleared successfully",
             "warning": "All data has been permanently deleted",
             "stats_before": stats_before,
-            "stats_after": stats_after
+            "stats_after": stats_after,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error clearing database: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error clearing database: {str(e)}"
+        )
 
 
 @app.delete("/database/images")
@@ -427,25 +487,25 @@ async def clear_images():
     """
     try:
         from database_simple import get_connection
-        
+
         conn = get_connection()
         cursor = conn.cursor()
-        
+
         # Contar imágenes antes
         cursor.execute("SELECT COUNT(*) FROM images")
         count_before = cursor.fetchone()[0]
-        
+
         # Eliminar todas las imágenes
         cursor.execute("DELETE FROM images")
         cursor.execute("DELETE FROM sqlite_sequence WHERE name='images'")
-        
+
         conn.commit()
         conn.close()
-        
+
         return {
             "success": True,
             "message": f"All {count_before} images deleted successfully",
-            "images_deleted": count_before
+            "images_deleted": count_before,
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting images: {str(e)}")
@@ -458,25 +518,25 @@ async def clear_users():
     """
     try:
         from database_simple import get_connection
-        
+
         conn = get_connection()
         cursor = conn.cursor()
-        
+
         # Contar usuarios antes
         cursor.execute("SELECT COUNT(*) FROM users")
         count_before = cursor.fetchone()[0]
-        
+
         # Eliminar todos los usuarios
         cursor.execute("DELETE FROM users")
         cursor.execute("DELETE FROM sqlite_sequence WHERE name='users'")
-        
+
         conn.commit()
         conn.close()
-        
+
         return {
             "success": True,
             "message": f"All {count_before} users deleted successfully",
-            "users_deleted": count_before
+            "users_deleted": count_before,
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting users: {str(e)}")
@@ -492,6 +552,7 @@ async def ranking(request: Request):
     """
     html_content = process_template("templates/ranking.html", request)
     return HTMLResponse(content=html_content)
+
 
 @app.get("/photos", response_class=HTMLResponse)
 async def photos(request: Request):

@@ -25,7 +25,12 @@ class Config:
         if request:
             return f"{request.url.scheme}://{request.url.netloc}"
         else:
-            return f"{cls.API_PROTOCOL}://{cls.API_HOST}:{cls.API_PORT}"
+            # No incluir puerto si es el estándar (80 para HTTP, 443 para HTTPS)
+            if (cls.API_PROTOCOL == "https" and cls.API_PORT == 443) or \
+               (cls.API_PROTOCOL == "http" and cls.API_PORT == 80):
+                return f"{cls.API_PROTOCOL}://{cls.API_HOST}"
+            else:
+                return f"{cls.API_PROTOCOL}://{cls.API_HOST}:{cls.API_PORT}"
     
     @classmethod
     def get_users_endpoint(cls, request: Optional[object] = None) -> str:

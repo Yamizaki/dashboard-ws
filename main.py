@@ -43,20 +43,28 @@ def process_template(
     print(f"   Users endpoint: {users_endpoint}")
     print(f"   Images endpoint: {images_endpoint}")
 
-    # Lista completa de patrones a reemplazar
+    # Lista completa de patrones a reemplazar - TODOS LOS CASOS POSIBLES
     url_patterns = [
-        # Patrones para usuarios
+        # Patrones para usuarios - TODAS LAS VARIACIONES
         (
-            'this.apiUrl = "http://0.0.0.1:8025/users/";',
+            'this.apiUrl = "http://127.0.0.1:8000/users/";',
+            f'this.apiUrl = "{users_endpoint}";',
+        ),
+        (
+            'this.apiUrl = "http://localhost:8000/users/";',
             f'this.apiUrl = "{users_endpoint}";',
         ),
         (
             'this.apiUrl = "http://0.0.0.1:8025/users/";',
             f'this.apiUrl = "{users_endpoint}";',
         ),
-        # Patrones para imágenes - TODOS LOS CASOS POSIBLES
+        # Patrones para imágenes - TODAS LAS VARIACIONES
         (
-            'this.apiUrl = "http://0.0.0.1:8025/images";',
+            'this.apiUrl = "http://localhost:8000/images";',
+            f'this.apiUrl = "{images_endpoint}";',
+        ),
+        (
+            'this.apiUrl = "http://127.0.0.1:8000/images";',
             f'this.apiUrl = "{images_endpoint}";',
         ),
         (
@@ -64,23 +72,30 @@ def process_template(
             f'this.apiUrl = "{images_endpoint}";',
         ),
         (
-            'this.apiUrl = "http://0.0.0.1:8025/images/";',
+            'this.apiUrl = "http://localhost:8000/images/";',
+            f'this.apiUrl = "{images_endpoint}/";',
+        ),
+        (
+            'this.apiUrl = "http://127.0.0.1:8000/images/";',
             f'this.apiUrl = "{images_endpoint}/";',
         ),
         (
             'this.apiUrl = "http://0.0.0.1:8025/images/";',
             f'this.apiUrl = "{images_endpoint}/";',
         ),
-        # Patrones para endpoints específicos
+        # Patrones para endpoints específicos - TODAS LAS VARIACIONES
+        ('"http://localhost:8000/images/save"', f'"{base_url}/images/save"'),
+        ('"http://127.0.0.1:8000/images/save"', f'"{base_url}/images/save"'),
         ('"http://0.0.0.1:8025/images/save"', f'"{base_url}/images/save"'),
-        ('"http://0.0.0.1:8025/images/save"', f'"{base_url}/images/save"'),
+        ("'http://localhost:8000/images/save'", f"'{base_url}/images/save'"),
+        ("'http://127.0.0.1:8000/images/save'", f"'{base_url}/images/save'"),
         ("'http://0.0.0.1:8025/images/save'", f"'{base_url}/images/save'"),
-        ("'http://0.0.0.1:8025/images/save'", f"'{base_url}/images/save'"),
-        # Patrones genéricos para cualquier puerto
+        # Patrones genéricos para cualquier puerto y host
+        ("http://localhost:8000/", f"{base_url}/"),
+        ("http://127.0.0.1:8000/", f"{base_url}/"),
         ("http://0.0.0.1:8025/", f"{base_url}/"),
-        ("http://0.0.0.1:8025/", f"{base_url}/"),
-        ("http://0.0.0.1:8025/", f"{base_url}/"),
-        ("http://0.0.0.1:8025/", f"{base_url}/"),
+        ("http://localhost:8025/", f"{base_url}/"),
+        ("http://127.0.0.1:8025/", f"{base_url}/"),
         # Comentarios que pueden contener URLs
         ("// Cambia por tu endpoint", f"// Auto-generated: {base_url}"),
         ("# Cambia por tu endpoint", f"# Auto-generated: {base_url}"),

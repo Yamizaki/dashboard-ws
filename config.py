@@ -11,8 +11,8 @@ class Config:
     """
     
     # API Configuration
-    API_HOST: str = os.getenv("API_HOST", "0.0.0.1")
-    API_PORT: int = int(os.getenv("API_PORT", "8025"))
+    API_HOST: str = os.getenv("API_HOST", "localhost")
+    API_PORT: int = int(os.getenv("API_PORT", "8000"))
     API_PROTOCOL: str = os.getenv("API_PROTOCOL", "http")
     
     @classmethod

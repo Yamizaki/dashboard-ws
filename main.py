@@ -1,10 +1,16 @@
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import base64
 import binascii
-import json
-from database_simple import insert_image, insert_user, get_image, get_user, get_all_images, get_all_users
+from database_simple import (
+    insert_image,
+    insert_user,
+    get_image,
+    get_user,
+    get_all_images,
+    get_all_users,
+)
 
 app = FastAPI(title="Image & User API", version="1.0.0")
 
@@ -59,68 +65,36 @@ async def upload_image(image: ImageCreate):
     }
 
 
-@app.websocket("/ws/users")
-async def websocket_create_user(websocket: WebSocket):
+@app.post("/users/")
+async def create_user(user: UserCreate):
     """
-    WebSocket endpoint para recibir y guardar datos de usuario
+    Endpoint POST para crear y guardar datos de usuario
     Formato esperado: {"username": "...", "email": "...", "time": "..."}
     """
-    await websocket.accept()
-
     try:
-        while True:
-            # Recibir datos del cliente
-            data = await websocket.receive_text()
+        # Validar que los campos no estén vacíos
+        if not user.username or not user.username.strip():
+            raise HTTPException(status_code=400, detail="username cannot be empty")
 
-            try:
-                # Parsear JSON
-                user_data = json.loads(data)
+        if not user.email or not user.email.strip():
+            raise HTTPException(status_code=400, detail="email cannot be empty")
 
-                # Validar campos requeridos
-                required_fields = ["username", "email", "time"]
-                missing_fields = [
-                    field for field in required_fields if field not in user_data
-                ]
+        if not user.time or not user.time.strip():
+            raise HTTPException(status_code=400, detail="time cannot be empty")
 
-                if missing_fields:
-                    await websocket.send_text(
-                        json.dumps(
-                            {
-                                "status": "error",
-                                "message": f"Missing required fields: {', '.join(missing_fields)}",
-                            }
-                        )
-                    )
-                    continue
+        # Guardar usuario en la base de datos
+        user_id = insert_user(user.username, user.email, user.time)
 
-                # Guardar usuario en la base de datos
-                user_id = insert_user(
-                    user_data["username"], user_data["email"], user_data["time"]
-                )
+        # Retornar respuesta exitosa
+        return {
+            "status": "success",
+            "message": "User created successfully",
+            "user_id": user_id,
+            "data": {"username": user.username, "email": user.email, "time": user.time},
+        }
 
-                # Enviar respuesta exitosa
-                response = {
-                    "status": "success",
-                    "message": "User created successfully",
-                    "user_id": user_id,
-                    "data": user_data,
-                }
-
-                await websocket.send_text(json.dumps(response))
-
-            except json.JSONDecodeError:
-                await websocket.send_text(
-                    json.dumps({"status": "error", "message": "Invalid JSON format"})
-                )
-            except Exception as e:
-                await websocket.send_text(
-                    json.dumps(
-                        {"status": "error", "message": f"Database error: {str(e)}"}
-                    )
-                )
-
-    except WebSocketDisconnect:
-        print("Client disconnected from WebSocket")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 
 @app.get("/images/{image_id}")
@@ -144,6 +118,7 @@ async def get_user_by_id(user_id: int):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+
 @app.get("/images/")
 async def list_images(limit: int = 50, offset: int = 0):
     """
@@ -158,9 +133,9 @@ async def list_images(limit: int = 50, offset: int = 0):
         limit = 1
     if offset < 0:
         offset = 0
-    
+
     result = get_all_images(limit, offset)
-    
+
     return {
         "success": True,
         "data": result["images"],
@@ -168,9 +143,10 @@ async def list_images(limit: int = 50, offset: int = 0):
             "total": result["total"],
             "limit": result["limit"],
             "offset": result["offset"],
-            "has_more": (result["offset"] + result["limit"]) < result["total"]
-        }
+            "has_more": (result["offset"] + result["limit"]) < result["total"],
+        },
     }
+
 
 @app.get("/users/")
 async def list_users(limit: int = 50, offset: int = 0):
@@ -186,9 +162,9 @@ async def list_users(limit: int = 50, offset: int = 0):
         limit = 1
     if offset < 0:
         offset = 0
-    
+
     result = get_all_users(limit, offset)
-    
+
     return {
         "success": True,
         "data": result["users"],
@@ -196,8 +172,8 @@ async def list_users(limit: int = 50, offset: int = 0):
             "total": result["total"],
             "limit": result["limit"],
             "offset": result["offset"],
-            "has_more": (result["offset"] + result["limit"]) < result["total"]
-        }
+            "has_more": (result["offset"] + result["limit"]) < result["total"],
+        },
     }
 
 

@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎃 Halloween Leaderboard - Top 10 Speedrunners 👻</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, #000000, #1a1a1a, #000000);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 102, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: spookyGlow 3s ease-in-out infinite alternate;
+        }
+
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            font-size: 3rem;
+            color: #ff6600;
+            text-shadow: 
+                0 0 10px #ff6600,
+                0 0 20px #ff6600,
+                2px 2px 4px #000000;
+            margin-bottom: 10px;
+            animation: flicker 2s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #000000;
+            font-weight: 600;
+            font-family: 'Exo 2', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .leaderboard {
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 
+                0 0 30px rgba(255, 102, 0, 0.4),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 3px solid #ff6600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading .pumpkin {
+            font-size: 4rem;
+            animation: bounce 1s infinite;
+        }
+
+        .loading p {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-top: 20px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px #000000;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        .player-card {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 26, 0.9));
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #333333;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .player-card:hover::before {
+            left: 100%;
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.5);
+            border-color: #ff6600;
+            background: linear-gradient(135deg, rgba(255, 102, 0, 0.1), rgba(0, 0, 0, 0.9));
+        }
+
+        .rank {
+            font-size: 2rem;
+            font-weight: 900;
+            width: 60px;
+            text-align: center;
+            margin-right: 20px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px #000000;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .rank.gold {
+            color: #00ff00;
+            text-shadow: 
+                0 0 10px #00ff00,
+                2px 2px 4px #000000;
+            font-size: 2.5rem;
+        }
+
+        .rank.silver {
+            color: #ff6600;
+            text-shadow: 
+                0 0 10px #ff6600,
+                2px 2px 4px #000000;
+            font-size: 2.2rem;
+        }
+
+        .rank.bronze {
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px #ffffff,
+                2px 2px 4px #000000;
+            font-size: 2.1rem;
+        }
+
+        .player-info {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .username {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px #000000;
+            font-family: 'Exo 2', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .time-display {
+            font-size: 1.1rem;
+            color: #00ff00;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px #000000;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .time-bar-container {
+            flex: 2;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .time-bar {
+            height: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #ff6600;
+            position: relative;
+        }
+
+        .time-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #66ff66);
+            border-radius: 15px;
+            transition: width 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .time-text {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-weight: 700;
+            color: #d8d8d8;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .medal {
+            font-size: 2rem;
+            margin-left: 15px;
+        }
+
+        @keyframes spookyGlow {
+            0% { text-shadow: 0 0 10px #ff6600, 0 0 20px #ff6600, 0 0 30px #ff6600; }
+            100% { text-shadow: 0 0 20px #ff6600, 0 0 30px #ff6600, 0 0 40px #ff6600; }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #ff6600;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #00ff00;
+            font-weight: 700;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px #000000;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 15px #00ff00;
+        }
+
+        .last-update, .next-update {
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px #000000;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .last-update span, .next-update span {
+            color: #ff6600;
+            font-weight: bold;
+        }
+
+        /* Notifications */
+        .notifications {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .notification {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(26, 26, 26, 0.95));
+            color: #ffffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ff6600;
+            box-shadow: 0 5px 20px rgba(255, 102, 0, 0.5);
+            animation: slideInRight 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .notification.rank-change {
+            border-color: #ff6600;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(255, 102, 0, 0.2));
+        }
+
+        .notification.new-record {
+            border-color: #00ff00;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 255, 0, 0.2));
+        }
+
+        .notification-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #ff6600;
+            text-shadow: 1px 1px 2px #000000;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #000000;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Player card animations for changes */
+        .player-card.position-changed {
+            animation: positionChange 1s ease-in-out;
+            border-color: #ffd700 !important;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5) !important;
+        }
+
+        .player-card.new-record {
+            animation: newRecord 1.5s ease-in-out;
+            border-color: #00ff00 !important;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6) !important;
+        }
+
+        .player-card.time-improved {
+            animation: timeImproved 1s ease-in-out;
+            border-color: #00bfff !important;
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.5) !important;
+        }
+
+        /* Loading spinner for real-time updates */
+        .updating-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 102, 0, 0.3);
+            border-top: 2px solid #ff6600;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes positionChange {
+            0%, 100% { transform: translateX(0) scale(1); }
+            25% { transform: translateX(-10px) scale(1.02); }
+            75% { transform: translateX(10px) scale(1.02); }
+        }
+
+        @keyframes newRecord {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes timeImproved {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .player-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .time-bar-container {
+                width: 100%;
+                margin: 15px 0 0 0;
+            }
+            
+            .rank {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .notifications {
+                position: relative;
+                top: auto;
+                right: auto;
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+
+    <div class="container">
+      <header class="header">
+        <h1 class="title">🎃 HALLOWEEN SPEEDRUN LEADERBOARD 👻</h1>
+        <p class="subtitle">Los mejores tiempos en el juego del terror</p>
+      </header>
+
+      <div class="status-bar">
+        <div class="live-indicator">
+          <span class="pulse-dot"></span>
+          <span>EN VIVO</span>
+        </div>
+        <div class="last-update">
+          Última actualización: <span id="lastUpdate">--</span>
+        </div>
+        <div class="next-update">
+          Próxima actualización en: <span id="countdown">--</span>
+        </div>
+      </div>
+
+      <div class="notifications" id="notifications"></div>
+
+      <div class="leaderboard" id="leaderboard">
+        <div class="loading">
+          <div class="pumpkin">🎃</div>
+          <p>Cargando datos espeluznantes...</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        class HalloweenLeaderboard {
+            constructor() {
+              this.apiUrl = "http://127.0.0.1:8000/users/";
+              console.log("llamada a", this.apiUrl);
+              this.leaderboardContainer = document.getElementById("leaderboard");
+              this.notificationsContainer = document.getElementById("notifications");
+              this.lastUpdateElement = document.getElementById("lastUpdate");
+              this.countdownElement = document.getElementById("countdown");
+          
+              this.previousData = [];
+              this.updateInterval = 5000; // 5 segundos para parecer más en tiempo real
+              this.countdownTimer = null;
+              this.updateTimer = null;
+          
+              this.init();
+            }
+          
+            async init() {
+              try {
+                await this.fetchAndDisplayData();
+                this.startRealTimeUpdates();
+              } catch (error) {
+                this.showError(error.message);
+              }
+            }
+          
+            startRealTimeUpdates() {
+              // Actualizar datos cada 5 segundos
+              this.updateTimer = setInterval(() => {
+                this.fetchAndDisplayData();
+              }, this.updateInterval);
+          
+              // Countdown timer
+              this.startCountdown();
+            }
+          
+            startCountdown() {
+              let seconds = this.updateInterval / 1000;
+          
+              this.countdownTimer = setInterval(() => {
+                seconds--;
+                if (seconds <= 0) {
+                  seconds = this.updateInterval / 1000;
+                  this.countdownElement.textContent = "Actualizando...";
+                } else {
+                  this.countdownElement.textContent = `${seconds}s`;
+                }
+              }, 1000);
+            }
+          
+            async fetchAndDisplayData() {
+              try {
+                // Mostrar indicador de actualización
+                this.showUpdatingIndicator();
+          
+                const response = await fetch(this.apiUrl);
+          
+                if (!response.ok) {
+                  throw new Error(`Error HTTP: ${response.status}`);
+                }
+          
+                const data = await response.json();
+                console.log("API Response:", data);
+                console.log("Raw users data:", data.data);
+          
+                if (!data.success || !data.data) {
+                  throw new Error("Formato de datos inválido");
+                }
+          
+                // Comparar con datos anteriores para detectar cambios
+                this.detectChanges(data.data);
+          
+                this.processAndDisplayLeaderboard(data.data);
+                this.updateLastUpdateTime();
+          
+                // Guardar datos actuales para la próxima comparación
+                this.previousData = [...data.data];
+              } catch (error) {
+                console.error("Error fetching data:", error);
+                this.showNotification(
+                  "⚠️ Error de conexión",
+                  "No se pudieron obtener los datos actualizados",
+                  "error"
+                );
+              } finally {
+                this.hideUpdatingIndicator();
+              }
+            }
+          
+            detectChanges(newData) {
+              if (this.previousData.length === 0) return;
+          
+              // Ordenar ambos arrays por tiempo para comparar posiciones
+              const oldSorted = this.previousData
+                .filter((user) => user.time && !isNaN(parseFloat(user.time)))
+                .sort((a, b) => parseFloat(a.time) - parseFloat(b.time));
+          
+              const newSorted = newData
+                .filter((user) => user.time && !isNaN(parseFloat(user.time)))
+                .sort((a, b) => parseFloat(a.time) - parseFloat(b.time));
+          
+              // Detectar cambios de posición y mejoras de tiempo
+              newSorted.forEach((newUser, newIndex) => {
+                const oldIndex = oldSorted.findIndex(
+                  (oldUser) => oldUser.id === newUser.id
+                );
+          
+                if (oldIndex !== -1) {
+                  const oldUser = oldSorted[oldIndex];
+                  const oldTime = parseFloat(oldUser.time);
+                  const newTime = parseFloat(newUser.time);
+          
+                  // Cambio de posición
+                  if (oldIndex !== newIndex) {
+                    const direction = oldIndex > newIndex ? "subió" : "bajó";
+                    const positions = Math.abs(oldIndex - newIndex);
+                    this.showNotification(
+                      "🏆 Cambio de posición!",
+                      `${newUser.username} ${direction} ${positions} posición${
+                        positions > 1 ? "es" : ""
+                      }`,
+                      "rank-change"
+                    );
+                  }
+          
+                  // Mejora de tiempo
+                  if (newTime < oldTime) {
+                    const improvement = oldTime - newTime;
+                    this.showNotification(
+                      "⚡ Tiempo mejorado!",
+                      `${newUser.username} mejoró por ${improvement.toFixed(2)}s`,
+                      "time-improved"
+                    );
+          
+                    // Nuevo récord (posición 1)
+                    if (newIndex === 0) {
+                      this.showNotification(
+                        "🥇 ¡NUEVO RÉCORD!",
+                        `${
+                          newUser.username
+                        } estableció un nuevo récord: ${this.formatTime(newTime)}`,
+                        "new-record"
+                      );
+                      this.playRecordSound();
+                    }
+                  }
+                } else {
+                  // Nuevo jugador
+                  this.showNotification(
+                    "👻 Nuevo jugador!",
+                    `${newUser.username} se unió al leaderboard`,
+                    "new-player"
+                  );
+                }
+              });
+            }
+          
+            showUpdatingIndicator() {
+              const indicator = document.createElement("div");
+              indicator.className = "updating-indicator";
+              indicator.id = "updating-indicator";
+              this.leaderboardContainer.style.position = "relative";
+              this.leaderboardContainer.appendChild(indicator);
+            }
+          
+            hideUpdatingIndicator() {
+              const indicator = document.getElementById("updating-indicator");
+              if (indicator) {
+                indicator.remove();
+              }
+            }
+          
+            updateLastUpdateTime() {
+              const now = new Date();
+              const timeString = now.toLocaleTimeString("es-ES", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              });
+              this.lastUpdateElement.textContent = timeString;
+            }
+          
+            processAndDisplayLeaderboard(users) {
+              console.log("Processing users:", users);
+              
+              // Debug: revisar cada usuario
+              users.forEach((user, index) => {
+                console.log(`User ${index}:`, {
+                  id: user.id,
+                  username: user.username,
+                  time: user.time,
+                  timeType: typeof user.time,
+                  parseFloat: parseFloat(user.time),
+                  isNaN: isNaN(parseFloat(user.time))
+                });
+              });
+              
+              // Ordenar usuarios por tiempo (menor tiempo = mejor posición)
+              const sortedUsers = users
+                .filter((user) => user.time && !isNaN(parseFloat(user.time)))
+                .sort((a, b) => parseFloat(a.time) - parseFloat(b.time))
+                .slice(0, 10); // Top 10
+          
+              console.log("Filtered users:", sortedUsers);
+          
+              if (sortedUsers.length === 0) {
+                console.log("No valid users found - showing no data message");
+                this.showNoData();
+                return;
+              }
+          
+              // Encontrar el tiempo máximo para calcular porcentajes de las barras
+              const maxTime = Math.max(
+                ...sortedUsers.map((user) => parseFloat(user.time))
+              );
+          
+              this.renderLeaderboard(sortedUsers, maxTime);
+            }
+          
+            renderLeaderboard(users, maxTime) {
+              const leaderboardHTML = users
+                .map((user, index) => {
+                  const rank = index + 1;
+                  const time = parseFloat(user.time);
+                  const timeFormatted = this.formatTime(time);
+                  const barWidth =
+                    maxTime > 0 ? ((maxTime - time) / maxTime) * 80 + 20 : 100;
+          
+                  const rankClass = this.getRankClass(rank);
+                  const medal = this.getMedal(rank);
+          
+                  // Detectar si este usuario tuvo cambios para aplicar animaciones
+                  const changeClass = this.getChangeClass(user, index);
+          
+                  return `
+                          <div class="player-card ${changeClass}" style="animation-delay: ${
+                    index * 0.1
+                  }s" data-user-id="${user.id}">
+                              <div class="rank ${rankClass}">${rank}</div>
+                              <div class="player-info">
+                                  <div class="username">${this.escapeHtml(
+                                    user.username
+                                  )}</div>
+                                  <div class="time-display">Tiempo: ${timeFormatted}</div>
+                              </div>
+                              <div class="time-bar-container">
+                                  <div class="time-bar">
+                                      <div class="time-bar-fill" style="width: ${barWidth}%"></div>
+                                      <div class="time-text">${timeFormatted}</div>
+                                  </div>
+                              </div>
+                              <div class="medal">${medal}</div>
+                          </div>
+                      `;
+                })
+                .join("");
+          
+              this.leaderboardContainer.innerHTML = leaderboardHTML;
+          
+              // Animar las barras después de un pequeño delay
+              setTimeout(() => {
+                this.animateBars();
+              }, 500);
+            }
+          
+            getChangeClass(user, currentIndex) {
+              if (this.previousData.length === 0) return "";
+          
+              const oldSorted = this.previousData
+                .filter((u) => u.time && !isNaN(parseFloat(u.time)))
+                .sort((a, b) => parseFloat(a.time) - parseFloat(b.time));
+          
+              const oldIndex = oldSorted.findIndex((oldUser) => oldUser.id === user.id);
+          
+              if (oldIndex === -1) return "new-player";
+          
+              const oldUser = oldSorted[oldIndex];
+              const oldTime = parseFloat(oldUser.time);
+              const newTime = parseFloat(user.time);
+          
+              if (currentIndex === 0 && newTime < oldTime) return "new-record";
+              if (oldIndex !== currentIndex) return "position-changed";
+              if (newTime < oldTime) return "time-improved";
+          
+              return "";
+            }
+          
+            showNotification(title, message, type = "default") {
+              const notification = document.createElement("div");
+              notification.className = `notification ${type}`;
+          
+              notification.innerHTML = `
+                      <div class="notification-title">${title}</div>
+                      <div class="notification-message">${message}</div>
+                  `;
+          
+              this.notificationsContainer.appendChild(notification);
+          
+              // Reproducir sonido según el tipo
+              this.playNotificationSound(type);
+          
+              // Remover después de 4 segundos
+              setTimeout(() => {
+                if (notification.parentNode) {
+                  notification.style.animation = "slideInRight 0.5s ease-out reverse";
+                  setTimeout(() => {
+                    notification.remove();
+                  }, 500);
+                }
+              }, 4000);
+          
+              // Limitar a máximo 5 notificaciones
+              const notifications = this.notificationsContainer.children;
+              if (notifications.length > 5) {
+                notifications[0].remove();
+              }
+            }
+          
+            playNotificationSound(type) {
+              // Crear sonidos usando Web Audio API (opcional)
+              try {
+                const audioContext = new (window.AudioContext ||
+                  window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+          
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+          
+                // Diferentes tonos para diferentes tipos de notificación
+                switch (type) {
+                  case "new-record":
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(
+                      1000,
+                      audioContext.currentTime + 0.1
+                    );
+                    break;
+                  case "rank-change":
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                    break;
+                  case "time-improved":
+                    oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+                    break;
+                  default:
+                    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                }
+          
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(
+                  0.01,
+                  audioContext.currentTime + 0.2
+                );
+          
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+              } catch (error) {
+                // Silenciar errores de audio si no es compatible
+              }
+            }
+          
+            playRecordSound() {
+              // Sonido especial para nuevo récord
+              try {
+                const audioContext = new (window.AudioContext ||
+                  window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+          
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+          
+                // Secuencia de tonos para celebración
+                const frequencies = [523, 659, 784, 1047]; // Do, Mi, Sol, Do alto
+                let time = audioContext.currentTime;
+          
+                frequencies.forEach((freq, index) => {
+                  const osc = audioContext.createOscillator();
+                  const gain = audioContext.createGain();
+          
+                  osc.connect(gain);
+                  gain.connect(audioContext.destination);
+          
+                  osc.frequency.setValueAtTime(freq, time);
+                  gain.gain.setValueAtTime(0.1, time);
+                  gain.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
+          
+                  osc.start(time);
+                  osc.stop(time + 0.3);
+          
+                  time += 0.2;
+                });
+              } catch (error) {
+                // Silenciar errores de audio
+              }
+            }
+          
+            formatTime(seconds) {
+              if (seconds < 60) {
+                return `${seconds.toFixed(2)}s`;
+              } else if (seconds < 3600) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = (seconds % 60).toFixed(2);
+                return `${minutes}m ${remainingSeconds}s`;
+              } else {
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const remainingSeconds = (seconds % 60).toFixed(2);
+                return `${hours}h ${minutes}m ${remainingSeconds}s`;
+              }
+            }
+          
+            getRankClass(rank) {
+              switch (rank) {
+                case 1:
+                  return "gold";
+                case 2:
+                  return "silver";
+                case 3:
+                  return "bronze";
+                default:
+                  return "";
+              }
+            }
+          
+            getMedal(rank) {
+              switch (rank) {
+                case 1:
+                  return "🥇";
+                case 2:
+                  return "🥈";
+                case 3:
+                  return "🥉";
+                case 4:
+                  return "👻";
+                case 5:
+                  return "🎃";
+                case 6:
+                  return "🦇";
+                case 7:
+                  return "🕷️";
+                case 8:
+                  return "💀";
+                case 9:
+                  return "🕸️";
+                case 10:
+                  return "🌙";
+                default:
+                  return "⭐";
+              }
+            }
+          
+            animateBars() {
+              const bars = document.querySelectorAll(".time-bar-fill");
+              bars.forEach((bar, index) => {
+                const width = bar.style.width;
+                bar.style.width = "0%";
+                setTimeout(() => {
+                  bar.style.width = width;
+                }, index * 100);
+              });
+            }
+          
+            showError(message) {
+              this.leaderboardContainer.innerHTML = `
+                      <div class="loading">
+                          <div style="font-size: 4rem;">💀</div>
+                          <p style="color: #ff4444;">Error: ${this.escapeHtml(
+                            message
+                          )}</p>
+                          <button onclick="location.reload()" style="
+                              margin-top: 20px;
+                              padding: 10px 20px;
+                              background: #ff6600;
+                              color: white;
+                              border: none;
+                              border-radius: 10px;
+                              cursor: pointer;
+                              font-family: inherit;
+                          ">Reintentar</button>
+                      </div>
+                  `;
+            }
+          
+            showNoData() {
+              this.leaderboardContainer.innerHTML = `
+                      <div class="loading">
+                          <div style="font-size: 4rem;">🎃</div>
+                          <p>No hay datos disponibles en este momento</p>
+                      </div>
+                  `;
+            }
+          
+            escapeHtml(text) {
+              const div = document.createElement("div");
+              div.textContent = text;
+              return div.innerHTML;
+            }
+          }
+          
+          // Inicializar la aplicación cuando el DOM esté listo
+          document.addEventListener("DOMContentLoaded", () => {
+            window.leaderboard = new HalloweenLeaderboard();
+          });
+          
+          // Limpiar timers cuando se cierre la página
+          window.addEventListener("beforeunload", () => {
+            if (window.leaderboard) {
+              clearInterval(window.leaderboard.updateTimer);
+              clearInterval(window.leaderboard.countdownTimer);
+            }
+          });
+          
+    </script>
+  </body>
+</html>

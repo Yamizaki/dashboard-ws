@@ -1,0 +1,784 @@
+[
+    {
+        "label": "create_engine",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Column",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Text",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "DateTime",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "declarative_base",
+        "importPath": "sqlalchemy.ext.declarative",
+        "description": "sqlalchemy.ext.declarative",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.ext.declarative",
+        "documentation": {}
+    },
+    {
+        "label": "sessionmaker",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "Session",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTMLResponse",
+        "importPath": "fastapi.responses",
+        "description": "fastapi.responses",
+        "isExtraImport": true,
+        "detail": "fastapi.responses",
+        "documentation": {}
+    },
+    {
+        "label": "CORSMiddleware",
+        "importPath": "fastapi.middleware.cors",
+        "description": "fastapi.middleware.cors",
+        "isExtraImport": true,
+        "detail": "fastapi.middleware.cors",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "EmailStr",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "base64",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "base64",
+        "description": "base64",
+        "detail": "base64",
+        "documentation": {}
+    },
+    {
+        "label": "binascii",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "binascii",
+        "description": "binascii",
+        "detail": "binascii",
+        "documentation": {}
+    },
+    {
+        "label": "insert_image",
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "isExtraImport": true,
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "insert_user",
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "isExtraImport": true,
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_image",
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "isExtraImport": true,
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_user",
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "isExtraImport": true,
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_images",
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "isExtraImport": true,
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_users",
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "isExtraImport": true,
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_db",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "ImageCreate",
+        "importPath": "schemas",
+        "description": "schemas",
+        "isExtraImport": true,
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "ImageResponse",
+        "importPath": "schemas",
+        "description": "schemas",
+        "isExtraImport": true,
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "UserCreate",
+        "importPath": "schemas",
+        "description": "schemas",
+        "isExtraImport": true,
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "UserResponse",
+        "importPath": "schemas",
+        "description": "schemas",
+        "isExtraImport": true,
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "websockets",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "websockets",
+        "description": "websockets",
+        "detail": "websockets",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "kind": 6,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "class Image(Base):\n    __tablename__ = \"images\"\n    id = Column(Integer, primary_key=True, index=True)\n    image_data = Column(Text, nullable=False)  # Base64 string\n    created_at = Column(DateTime, default=datetime.utcnow)\nclass User(Base):\n    __tablename__ = \"users\"\n    id = Column(Integer, primary_key=True, index=True)\n    username = Column(String(50), nullable=False)\n    email = Column(String(100), nullable=False)",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "class User(Base):\n    __tablename__ = \"users\"\n    id = Column(Integer, primary_key=True, index=True)\n    username = Column(String(50), nullable=False)\n    email = Column(String(100), nullable=False)\n    time = Column(String(50), nullable=False)\n    created_at = Column(DateTime, default=datetime.utcnow)\ndef get_db():\n    db = SessionLocal()\n    try:",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_db",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n# Crear las tablas\nBase.metadata.create_all(bind=engine)",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "SQLITE_DATABASE_URL",
+        "kind": 5,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "SQLITE_DATABASE_URL = \"sqlite:///./app.db\"\nengine = create_engine(SQLITE_DATABASE_URL, connect_args={\"check_same_thread\": False})\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()\nclass Image(Base):\n    __tablename__ = \"images\"\n    id = Column(Integer, primary_key=True, index=True)\n    image_data = Column(Text, nullable=False)  # Base64 string\n    created_at = Column(DateTime, default=datetime.utcnow)\nclass User(Base):",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "engine",
+        "kind": 5,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "engine = create_engine(SQLITE_DATABASE_URL, connect_args={\"check_same_thread\": False})\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()\nclass Image(Base):\n    __tablename__ = \"images\"\n    id = Column(Integer, primary_key=True, index=True)\n    image_data = Column(Text, nullable=False)  # Base64 string\n    created_at = Column(DateTime, default=datetime.utcnow)\nclass User(Base):\n    __tablename__ = \"users\"",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "SessionLocal",
+        "kind": 5,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()\nclass Image(Base):\n    __tablename__ = \"images\"\n    id = Column(Integer, primary_key=True, index=True)\n    image_data = Column(Text, nullable=False)  # Base64 string\n    created_at = Column(DateTime, default=datetime.utcnow)\nclass User(Base):\n    __tablename__ = \"users\"\n    id = Column(Integer, primary_key=True, index=True)",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "Base",
+        "kind": 5,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "Base = declarative_base()\nclass Image(Base):\n    __tablename__ = \"images\"\n    id = Column(Integer, primary_key=True, index=True)\n    image_data = Column(Text, nullable=False)  # Base64 string\n    created_at = Column(DateTime, default=datetime.utcnow)\nclass User(Base):\n    __tablename__ = \"users\"\n    id = Column(Integer, primary_key=True, index=True)\n    username = Column(String(50), nullable=False)",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "init_database",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def init_database():\n    \"\"\"Inicializar la base de datos y crear las tablas\"\"\"\n    conn = sqlite3.connect(DATABASE_PATH)\n    cursor = conn.cursor()\n    # Crear tabla de imágenes\n    cursor.execute(\n        \"\"\"\n        CREATE TABLE IF NOT EXISTS images (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            image_data TEXT NOT NULL,",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_connection",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def get_connection():\n    \"\"\"Obtener conexión a la base de datos\"\"\"\n    return sqlite3.connect(DATABASE_PATH)\ndef insert_image(image_data: str):\n    \"\"\"Insertar una nueva imagen\"\"\"\n    conn = get_connection()\n    cursor = conn.cursor()\n    cursor.execute(\"INSERT INTO images (image_data) VALUES (?)\", (image_data,))\n    image_id = cursor.lastrowid\n    conn.commit()",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "insert_image",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def insert_image(image_data: str):\n    \"\"\"Insertar una nueva imagen\"\"\"\n    conn = get_connection()\n    cursor = conn.cursor()\n    cursor.execute(\"INSERT INTO images (image_data) VALUES (?)\", (image_data,))\n    image_id = cursor.lastrowid\n    conn.commit()\n    conn.close()\n    return image_id\ndef insert_user(username: str, email: str, time: str):",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "insert_user",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def insert_user(username: str, email: str, time: str):\n    \"\"\"Insertar un nuevo usuario\"\"\"\n    conn = get_connection()\n    cursor = conn.cursor()\n    cursor.execute(\n        \"INSERT INTO users (username, email, time) VALUES (?, ?, ?)\",\n        (username, email, time),\n    )\n    user_id = cursor.lastrowid\n    conn.commit()",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_image",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def get_image(image_id: int):\n    \"\"\"Obtener una imagen por ID\"\"\"\n    conn = get_connection()\n    cursor = conn.cursor()\n    cursor.execute(\n        \"SELECT id, image_data, created_at FROM images WHERE id = ?\", (image_id,)\n    )\n    result = cursor.fetchone()\n    conn.close()\n    if result:",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_user",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def get_user(user_id: int):\n    \"\"\"Obtener un usuario por ID\"\"\"\n    conn = get_connection()\n    cursor = conn.cursor()\n    cursor.execute(\n        \"SELECT id, username, email, time, created_at FROM users WHERE id = ?\",\n        (user_id,),\n    )\n    result = cursor.fetchone()\n    conn.close()",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_images",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def get_all_images(limit: int = 50, offset: int = 0):\n    \"\"\"Obtener todas las imágenes con paginación\"\"\"\n    conn = get_connection()\n    cursor = conn.cursor()\n    cursor.execute(\n        \"SELECT id, created_at, image_data FROM images ORDER BY created_at DESC LIMIT ? OFFSET ?\",\n        (limit, offset),\n    )\n    results = cursor.fetchall()\n    # Obtener el total de imágenes",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_users",
+        "kind": 2,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "def get_all_users(limit: int = 50, offset: int = 0):\n    \"\"\"Obtener todos los usuarios con paginación\"\"\"\n    conn = get_connection()\n    cursor = conn.cursor()\n    cursor.execute(\n        \"SELECT id, username, email, time, created_at FROM users ORDER BY created_at DESC LIMIT ? OFFSET ?\",\n        (limit, offset),\n    )\n    results = cursor.fetchall()\n    # Obtener el total de usuarios",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASE_PATH",
+        "kind": 5,
+        "importPath": "database_simple",
+        "description": "database_simple",
+        "peekOfCode": "DATABASE_PATH = \"app.db\"\ndef init_database():\n    \"\"\"Inicializar la base de datos y crear las tablas\"\"\"\n    conn = sqlite3.connect(DATABASE_PATH)\n    cursor = conn.cursor()\n    # Crear tabla de imágenes\n    cursor.execute(\n        \"\"\"\n        CREATE TABLE IF NOT EXISTS images (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,",
+        "detail": "database_simple",
+        "documentation": {}
+    },
+    {
+        "label": "ImageCreate",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class ImageCreate(BaseModel):\n    image_data: str\nclass UserCreate(BaseModel):\n    username: str\n    email: str\n    time: str\n@app.post(\"/images/\")\nasync def upload_image(image: ImageCreate):\n    \"\"\"\n    Endpoint para recibir y guardar imágenes en base64",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "UserCreate",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class UserCreate(BaseModel):\n    username: str\n    email: str\n    time: str\n@app.post(\"/images/\")\nasync def upload_image(image: ImageCreate):\n    \"\"\"\n    Endpoint para recibir y guardar imágenes en base64\n    Formato esperado: {\"image_data\": \"base64_string_here\"}\n    \"\"\"",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = FastAPI(title=\"Image & User API\", version=\"1.0.0\")\n# Configurar CORS para permitir todas las conexiones (solo para desarrollo)\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],  # Permite todos los orígenes\n    allow_credentials=True,\n    allow_methods=[\"*\"],  # Permite todos los métodos\n    allow_headers=[\"*\"],  # Permite todos los headers\n)\nclass ImageCreate(BaseModel):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main_sqlalchemy",
+        "description": "main_sqlalchemy",
+        "peekOfCode": "app = FastAPI(title=\"Image & User API\", version=\"1.0.0\")\n@app.post(\"/images/\", response_model=ImageResponse)\nasync def upload_image(image: ImageCreate, db: Session = Depends(get_db)):\n    \"\"\"\n    Endpoint para recibir y guardar imágenes en base64\n    \"\"\"\n    try:\n        # Validar que sea base64 válido\n        base64.b64decode(image.image_data)\n    except (binascii.Error, ValueError):",
+        "detail": "main_sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "ImageCreate",
+        "kind": 6,
+        "importPath": "schemas",
+        "description": "schemas",
+        "peekOfCode": "class ImageCreate(BaseModel):\n    image_data: str  # Base64 string\nclass ImageResponse(BaseModel):\n    id: int\n    created_at: datetime\n    class Config:\n        from_attributes = True\nclass UserCreate(BaseModel):\n    username: str\n    email: str",
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "ImageResponse",
+        "kind": 6,
+        "importPath": "schemas",
+        "description": "schemas",
+        "peekOfCode": "class ImageResponse(BaseModel):\n    id: int\n    created_at: datetime\n    class Config:\n        from_attributes = True\nclass UserCreate(BaseModel):\n    username: str\n    email: str\n    time: str\nclass UserResponse(BaseModel):",
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "UserCreate",
+        "kind": 6,
+        "importPath": "schemas",
+        "description": "schemas",
+        "peekOfCode": "class UserCreate(BaseModel):\n    username: str\n    email: str\n    time: str\nclass UserResponse(BaseModel):\n    id: int\n    username: str\n    email: str\n    time: str\n    created_at: datetime",
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "UserResponse",
+        "kind": 6,
+        "importPath": "schemas",
+        "description": "schemas",
+        "peekOfCode": "class UserResponse(BaseModel):\n    id: int\n    username: str\n    email: str\n    time: str\n    created_at: datetime\n    class Config:\n        from_attributes = True",
+        "detail": "schemas",
+        "documentation": {}
+    },
+    {
+        "label": "test_upload_image",
+        "kind": 2,
+        "importPath": "test_client",
+        "description": "test_client",
+        "peekOfCode": "def test_upload_image():\n    \"\"\"Ejemplo de cómo subir una imagen en base64\"\"\"\n    # Imagen de ejemplo (1x1 pixel transparente PNG)\n    sample_image_b64 = \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==\"\n    # Datos para enviar\n    data = {\n        \"image_data\": sample_image_b64\n    }\n    # Hacer POST request\n    response = requests.post(f\"{BASE_URL}/images/\", json=data)",
+        "detail": "test_client",
+        "documentation": {}
+    },
+    {
+        "label": "test_get_image",
+        "kind": 2,
+        "importPath": "test_client",
+        "description": "test_client",
+        "peekOfCode": "def test_get_image(image_id):\n    \"\"\"Ejemplo de cómo obtener una imagen por ID\"\"\"\n    response = requests.get(f\"{BASE_URL}/images/{image_id}\")\n    if response.status_code == 200:\n        result = response.json()\n        print(f\"✅ Imagen obtenida:\")\n        print(f\"ID: {result['id']}\")\n        print(f\"Fecha creación: {result['created_at']}\")\n        print(f\"Tamaño de datos: {len(result['image_data'])} caracteres\")\n        return result",
+        "detail": "test_client",
+        "documentation": {}
+    },
+    {
+        "label": "encode_local_image",
+        "kind": 2,
+        "importPath": "test_client",
+        "description": "test_client",
+        "peekOfCode": "def encode_local_image(file_path):\n    \"\"\"Convertir una imagen local a base64\"\"\"\n    try:\n        with open(file_path, \"rb\") as image_file:\n            encoded_string = base64.b64encode(image_file.read()).decode('utf-8')\n            return encoded_string\n    except FileNotFoundError:\n        print(f\"❌ Archivo no encontrado: {file_path}\")\n        return None\nif __name__ == \"__main__\":",
+        "detail": "test_client",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_URL",
+        "kind": 5,
+        "importPath": "test_client",
+        "description": "test_client",
+        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef test_upload_image():\n    \"\"\"Ejemplo de cómo subir una imagen en base64\"\"\"\n    # Imagen de ejemplo (1x1 pixel transparente PNG)\n    sample_image_b64 = \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==\"\n    # Datos para enviar\n    data = {\n        \"image_data\": sample_image_b64\n    }\n    # Hacer POST request",
+        "detail": "test_client",
+        "documentation": {}
+    },
+    {
+        "label": "create_frontend_payload",
+        "kind": 2,
+        "importPath": "test_frontend_format",
+        "description": "test_frontend_format",
+        "peekOfCode": "def create_frontend_payload():\n    \"\"\"Crear payload en el formato que envía tu frontend\"\"\"\n    # Crear imagen JPEG de prueba (muy simple)\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    # Formato exacto que envía tu frontend\n    payload = {\n        \"image_data_base64\": base64_image,\n        \"mime_type\": \"image/jpeg\",\n        \"style\": \"realistic photo\",",
+        "detail": "test_frontend_format",
+        "documentation": {}
+    },
+    {
+        "label": "test_save_endpoint",
+        "kind": 2,
+        "importPath": "test_frontend_format",
+        "description": "test_frontend_format",
+        "peekOfCode": "def test_save_endpoint():\n    \"\"\"Probar el endpoint /images/save\"\"\"\n    print(\"🧪 Probando endpoint /images/save...\")\n    payload = create_frontend_payload()\n    print(f\"📤 Enviando payload del frontend:\")\n    print(json.dumps({k: v if k != 'image_data_base64' else f\"{v[:50]}...\" for k, v in payload.items()}, indent=2))\n    try:\n        response = requests.post(\n            f\"{BASE_URL}/images/save\",\n            json=payload,",
+        "detail": "test_frontend_format",
+        "documentation": {}
+    },
+    {
+        "label": "test_with_missing_field",
+        "kind": 2,
+        "importPath": "test_frontend_format",
+        "description": "test_frontend_format",
+        "peekOfCode": "def test_with_missing_field():\n    \"\"\"Probar con campo faltante para verificar validación\"\"\"\n    print(\"\\n🧪 Probando con campo faltante...\")\n    payload = {\n        \"mime_type\": \"image/jpeg\",\n        \"style\": \"test\",\n        # Falta image_data_base64\n    }\n    try:\n        response = requests.post(",
+        "detail": "test_frontend_format",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_URL",
+        "kind": 5,
+        "importPath": "test_frontend_format",
+        "description": "test_frontend_format",
+        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_frontend_payload():\n    \"\"\"Crear payload en el formato que envía tu frontend\"\"\"\n    # Crear imagen JPEG de prueba (muy simple)\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    # Formato exacto que envía tu frontend\n    payload = {\n        \"image_data_base64\": base64_image,\n        \"mime_type\": \"image/jpeg\",",
+        "detail": "test_frontend_format",
+        "documentation": {}
+    },
+    {
+        "label": "create_gemini_payload",
+        "kind": 2,
+        "importPath": "test_gemini_format",
+        "description": "test_gemini_format",
+        "peekOfCode": "def create_gemini_payload():\n    \"\"\"Crear payload en formato Gemini API\"\"\"\n    # Crear imagen de prueba\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    base64_image = base64.b64encode(png_data).decode('utf-8')\n    # Formato exacto que envía el frontend\n    payload = {\n        \"contents\": [{\n            \"parts\": [\n                { \"text\": \"Analyze this image\" },",
+        "detail": "test_gemini_format",
+        "documentation": {}
+    },
+    {
+        "label": "test_gemini_endpoint",
+        "kind": 2,
+        "importPath": "test_gemini_format",
+        "description": "test_gemini_format",
+        "peekOfCode": "def test_gemini_endpoint():\n    \"\"\"Probar el endpoint con formato Gemini\"\"\"\n    print(\"🧪 Probando endpoint /images/gemini...\")\n    payload = create_gemini_payload()\n    print(f\"📤 Enviando payload Gemini:\")\n    print(json.dumps(payload, indent=2)[:500] + \"...\")\n    try:\n        response = requests.post(\n            f\"{BASE_URL}/images/gemini\",\n            json=payload,",
+        "detail": "test_gemini_format",
+        "documentation": {}
+    },
+    {
+        "label": "test_original_endpoint",
+        "kind": 2,
+        "importPath": "test_gemini_format",
+        "description": "test_gemini_format",
+        "peekOfCode": "def test_original_endpoint():\n    \"\"\"Probar el endpoint original para comparar\"\"\"\n    print(\"\\n🧪 Probando endpoint original /images/...\")\n    # Formato simple\n    payload = {\n        \"image_data\": base64.b64encode(b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82').decode('utf-8')\n    }\n    try:\n        response = requests.post(\n            f\"{BASE_URL}/images/\",",
+        "detail": "test_gemini_format",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_URL",
+        "kind": 5,
+        "importPath": "test_gemini_format",
+        "description": "test_gemini_format",
+        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_gemini_payload():\n    \"\"\"Crear payload en formato Gemini API\"\"\"\n    # Crear imagen de prueba\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    base64_image = base64.b64encode(png_data).decode('utf-8')\n    # Formato exacto que envía el frontend\n    payload = {\n        \"contents\": [{\n            \"parts\": [",
+        "detail": "test_gemini_format",
+        "documentation": {}
+    },
+    {
+        "label": "create_test_image",
+        "kind": 2,
+        "importPath": "test_image_simple",
+        "description": "test_image_simple",
+        "peekOfCode": "def create_test_image():\n    \"\"\"Crear una imagen de prueba muy simple en base64\"\"\"\n    # Imagen PNG 1x1 pixel transparente\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    return base64.b64encode(png_data).decode('utf-8')\ndef test_image_upload():\n    \"\"\"Probar subida de imagen\"\"\"\n    print(\"🧪 Probando subida de imagen...\")\n    # Crear imagen de prueba\n    test_image_b64 = create_test_image()",
+        "detail": "test_image_simple",
+        "documentation": {}
+    },
+    {
+        "label": "test_image_upload",
+        "kind": 2,
+        "importPath": "test_image_simple",
+        "description": "test_image_simple",
+        "peekOfCode": "def test_image_upload():\n    \"\"\"Probar subida de imagen\"\"\"\n    print(\"🧪 Probando subida de imagen...\")\n    # Crear imagen de prueba\n    test_image_b64 = create_test_image()\n    print(f\"📷 Imagen de prueba creada: {len(test_image_b64)} caracteres\")\n    # Datos a enviar\n    payload = {\n        \"image_data\": test_image_b64\n    }",
+        "detail": "test_image_simple",
+        "documentation": {}
+    },
+    {
+        "label": "test_debug_endpoint",
+        "kind": 2,
+        "importPath": "test_image_simple",
+        "description": "test_image_simple",
+        "peekOfCode": "def test_debug_endpoint():\n    \"\"\"Probar endpoint de debug\"\"\"\n    print(\"\\n🔍 Probando endpoint de debug...\")\n    test_data = {\n        \"image_data\": \"test_string_123\",\n        \"extra_field\": \"extra_value\"\n    }\n    try:\n        response = requests.post(\n            f\"{BASE_URL}/images/test\",",
+        "detail": "test_image_simple",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_URL",
+        "kind": 5,
+        "importPath": "test_image_simple",
+        "description": "test_image_simple",
+        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_test_image():\n    \"\"\"Crear una imagen de prueba muy simple en base64\"\"\"\n    # Imagen PNG 1x1 pixel transparente\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    return base64.b64encode(png_data).decode('utf-8')\ndef test_image_upload():\n    \"\"\"Probar subida de imagen\"\"\"\n    print(\"🧪 Probando subida de imagen...\")\n    # Crear imagen de prueba",
+        "detail": "test_image_simple",
+        "documentation": {}
+    },
+    {
+        "label": "create_sample_images",
+        "kind": 2,
+        "importPath": "test_list_endpoints",
+        "description": "test_list_endpoints",
+        "peekOfCode": "def create_sample_images(count=5):\n    \"\"\"Crear algunas imágenes de muestra para probar el listado\"\"\"\n    print(f\"📷 Creando {count} imágenes de muestra...\")\n    # Imagen JPEG simple\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    created_ids = []\n    for i in range(count):\n        payload = {\n            \"image_data_base64\": base64_image,",
+        "detail": "test_list_endpoints",
+        "documentation": {}
+    },
+    {
+        "label": "test_list_images",
+        "kind": 2,
+        "importPath": "test_list_endpoints",
+        "description": "test_list_endpoints",
+        "peekOfCode": "def test_list_images():\n    \"\"\"Probar el endpoint de listado de imágenes\"\"\"\n    print(\"\\n📋 Probando listado de imágenes...\")\n    try:\n        # Listar todas las imágenes (default)\n        response = requests.get(f\"{BASE_URL}/images/\")\n        print(f\"📊 Status Code: {response.status_code}\")\n        if response.status_code == 200:\n            result = response.json()\n            print(f\"✅ Listado exitoso!\")",
+        "detail": "test_list_endpoints",
+        "documentation": {}
+    },
+    {
+        "label": "test_list_images_with_pagination",
+        "kind": 2,
+        "importPath": "test_list_endpoints",
+        "description": "test_list_endpoints",
+        "peekOfCode": "def test_list_images_with_pagination():\n    \"\"\"Probar paginación en el listado de imágenes\"\"\"\n    print(\"\\n📄 Probando paginación...\")\n    try:\n        # Obtener solo 2 imágenes por página\n        response = requests.get(f\"{BASE_URL}/images/?limit=2&offset=0\")\n        if response.status_code == 200:\n            result = response.json()\n            print(f\"✅ Primera página (limit=2):\")\n            print(f\"  Total: {result['pagination']['total']}\")",
+        "detail": "test_list_endpoints",
+        "documentation": {}
+    },
+    {
+        "label": "test_get_specific_image",
+        "kind": 2,
+        "importPath": "test_list_endpoints",
+        "description": "test_list_endpoints",
+        "peekOfCode": "def test_get_specific_image(image_id):\n    \"\"\"Probar obtener una imagen específica\"\"\"\n    print(f\"\\n🔍 Obteniendo imagen específica ID: {image_id}...\")\n    try:\n        response = requests.get(f\"{BASE_URL}/images/{image_id}\")\n        if response.status_code == 200:\n            result = response.json()\n            print(f\"✅ Imagen obtenida:\")\n            print(f\"  ID: {result['id']}\")\n            print(f\"  Creada: {result['created_at']}\")",
+        "detail": "test_list_endpoints",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_URL",
+        "kind": 5,
+        "importPath": "test_list_endpoints",
+        "description": "test_list_endpoints",
+        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_sample_images(count=5):\n    \"\"\"Crear algunas imágenes de muestra para probar el listado\"\"\"\n    print(f\"📷 Creando {count} imágenes de muestra...\")\n    # Imagen JPEG simple\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    created_ids = []\n    for i in range(count):\n        payload = {",
+        "detail": "test_list_endpoints",
+        "documentation": {}
+    }
+]

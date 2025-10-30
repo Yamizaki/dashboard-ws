@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import base64
@@ -304,6 +305,18 @@ async def test_image_endpoint(data: dict):
         "data_type": type(data).__name__,
         "keys": list(data.keys()) if isinstance(data, dict) else "Not a dict",
     }
+
+
+@app.get("/ranking", response_class=HTMLResponse)
+async def ranking():
+    """
+    Endpoint que renderiza una página HTML con el ranking de usuarios cargando un archivo externo
+    """
+    # Leer el archivo HTML externo
+    with open("templates/ranking.html", "r", encoding="utf-8") as file:
+        html_template = file.read()
+
+    return HTMLResponse(content=html_template)
 
 
 if __name__ == "__main__":

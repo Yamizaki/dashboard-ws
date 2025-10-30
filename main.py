@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import base64
@@ -18,6 +19,9 @@ from database_simple import (
 from config import config
 
 app = FastAPI(title="Image & User API", version="1.0.0")
+
+# Montar archivos estáticos
+app.mount("/static", StaticFiles(directory="templates"), name="static")
 
 def process_template(template_path: str, request: Request, replacements: dict = None) -> str:
     """
@@ -214,6 +218,10 @@ async def list_users(limit: int = 50, offset: int = 0):
 @app.get("/")
 async def root():
     return {"message": "Image & User API is running"}
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse("favicon.ico")
 
 
 @app.post("/images/gemini")

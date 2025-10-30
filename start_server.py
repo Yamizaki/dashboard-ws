@@ -6,14 +6,20 @@ import uvicorn
 import os
 from config import config
 
+
 def main():
     print("🎃 Halloween API Server")
     print("=" * 50)
-    
+
     host = config.API_HOST
     port = config.API_PORT
-    
-    print(f"🚀 Iniciando servidor en {config.API_PROTOCOL}://{host}:{port}")
+
+    print(f"🚀 Configuración actual:")
+    print(f"   Host: {host}")
+    print(f"   Puerto: {port}")
+    print(f"   Protocolo: {config.API_PROTOCOL}")
+    print(f"   URL Base: {config.get_api_base_url()}")
+
     print("\n📍 Endpoints disponibles:")
     print(f"   • API Root: {config.get_api_base_url()}/")
     print(f"   • Ranking: {config.get_api_base_url()}/ranking")
@@ -32,15 +38,10 @@ def main():
     print("   2. Edita las variables en .env")
     print("   3. Reinicia el servidor")
     print("\n" + "=" * 50)
-    
+
     # Iniciar el servidor
-    uvicorn.run(
-        "main:app",
-        host=host,
-        port=port,
-        reload=True,
-        log_level="info"
-    )
+    uvicorn.run("main:app", host=host, port=port, reload=True, log_level="info")
+
 
 if __name__ == "__main__":
     main()

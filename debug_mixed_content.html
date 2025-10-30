@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Mixed Content</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        .warning { color: orange; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Mixed Content Issue</h1>
+    
+    <div class="debug-section">
+        <h2>1. Información del contexto</h2>
+        <div id="context-info"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>2. URLs generadas</h2>
+        <div id="url-info"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>3. Test de fetch</h2>
+        <div id="fetch-results"></div>
+        <button onclick="testFetch()">🧪 Probar Fetch</button>
+    </div>
+    
+    <div class="debug-section">
+        <h2>4. Logs de consola</h2>
+        <div id="console-logs"></div>
+    </div>
+
+    <script>
+        // Función para log personalizado
+        function debugLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('console-logs');
+            const className = type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'success';
+            logDiv.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            console.log(`[DEBUG] ${message}`);
+        }
+        
+        // 1. Mostrar información del contexto
+        function showContextInfo() {
+            const info = document.getElementById('context-info');
+            info.innerHTML = `
+                <p><strong>URL actual:</strong> ${window.location.href}</p>
+                <p><strong>Protocolo:</strong> ${window.location.protocol}</p>
+                <p><strong>Host:</strong> ${window.location.host}</p>
+                <p><strong>Hostname:</strong> ${window.location.hostname}</p>
+                <p><strong>Port:</strong> ${window.location.port || 'default'}</p>
+                <p><strong>Origin:</strong> ${window.location.origin}</p>
+            `;
+            
+            debugLog(`Context: ${window.location.protocol}//${window.location.host}`);
+        }
+        
+        // 2. Mostrar URLs generadas
+        function showUrlInfo() {
+            const apiUrl = `${window.location.protocol}//${window.location.host}/images`;
+            const usersUrl = `${window.location.protocol}//${window.location.host}/users/`;
+            
+            const info = document.getElementById('url-info');
+            info.innerHTML = `
+                <p><strong>API Images URL:</strong> <span class="success">${apiUrl}</span></p>
+                <p><strong>API Users URL:</strong> <span class="success">${usersUrl}</span></p>
+                <p><strong>¿Es HTTPS?:</strong> ${window.location.protocol === 'https:' ? '✅ Sí' : '❌ No'}</p>
+                <p><strong>¿Mixed Content posible?:</strong> ${window.location.protocol === 'https:' && apiUrl.startsWith('http:') ? '❌ SÍ - PROBLEMA' : '✅ No'}</p>
+            `;
+            
+            debugLog(`Generated API URL: ${apiUrl}`);
+            debugLog(`Protocol match: ${window.location.protocol === 'https:' ? 'HTTPS' : 'HTTP'}`);
+        }
+        
+        // 3. Test de fetch
+        async function testFetch() {
+            const resultsDiv = document.getElementById('fetch-results');
+            const apiUrl = `${window.location.protocol}//${window.location.host}/images`;
+            
+            resultsDiv.innerHTML = '<p>🔄 Probando fetch...</p>';
+            debugLog(`Testing fetch to: ${apiUrl}`);
+            
+            try {
+                const response = await fetch(apiUrl);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultsDiv.innerHTML = `
+                        <p class="success">✅ Fetch exitoso!</p>
+                        <p><strong>Status:</strong> ${response.status}</p>
+                        <p><strong>Response:</strong> ${JSON.stringify(data, null, 2)}</p>
+                    `;
+                    debugLog(`Fetch success: ${response.status}`, 'success');
+                } else {
+                    resultsDiv.innerHTML = `
+                        <p class="error">❌ Fetch falló</p>
+                        <p><strong>Status:</strong> ${response.status}</p>
+                        <p><strong>Status Text:</strong> ${response.statusText}</p>
+                    `;
+                    debugLog(`Fetch failed: ${response.status} ${response.statusText}`, 'error');
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <p class="error">❌ Error de fetch</p>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p><strong>Tipo:</strong> ${error.name}</p>
+                `;
+                debugLog(`Fetch error: ${error.message}`, 'error');
+                
+                // Análisis específico del error
+                if (error.message.includes('Failed to fetch')) {
+                    debugLog('Posibles causas: CORS, servidor no disponible, o Mixed Content', 'warning');
+                }
+            }
+        }
+        
+        // Inicializar debug
+        document.addEventListener('DOMContentLoaded', function() {
+            debugLog('Debug page loaded');
+            showContextInfo();
+            showUrlInfo();
+            
+            // Auto-test después de 2 segundos
+            setTimeout(testFetch, 2000);
+        });
+        
+        // Capturar errores globales
+        window.addEventListener('error', function(e) {
+            debugLog(`Global error: ${e.message}`, 'error');
+        });
+        
+        // Capturar errores de fetch no manejados
+        window.addEventListener('unhandledrejection', function(e) {
+            debugLog(`Unhandled promise rejection: ${e.reason}`, 'error');
+        });
+    </script>
+</body>
+</html>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎃 Halloween Gallery - Capturas del Terror 📸</title>
-    <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
     <style>
@@ -574,8 +573,10 @@ body::before {
     <script>
         class HalloweenGallery {
             constructor() {
-              // Detectar automáticamente el protocolo y host
-              this.apiUrl = `${window.location.protocol}//${window.location.host}/images`;
+              // Forzar HTTPS para evitar Mixed Content
+              const protocol = window.location.protocol === 'https:' ? 'https:' : window.location.protocol;
+              this.apiUrl = `${protocol}//${window.location.host}/images`;
+              console.log('🔍 API URL generada:', this.apiUrl);
               this.galleryContainer = document.getElementById("gallery");
               this.notificationsContainer = document.getElementById("notifications");
               this.totalImagesElement = document.getElementById("totalImages");
@@ -640,6 +641,9 @@ body::before {
           
             async fetchAndDisplayImages() {
               try {
+                console.log('🌐 Haciendo fetch a:', this.apiUrl);
+                console.log('📍 Protocolo actual:', window.location.protocol);
+                console.log('🏠 Host actual:', window.location.host);
                 const response = await fetch(this.apiUrl);
           
                 if (!response.ok) {
@@ -955,6 +959,54 @@ body::before {
             }
           });
           
+    </script>
+    
+    <!-- Force HTTPS Fix para evitar Mixed Content -->
+    <script>
+        (function() {
+            'use strict';
+            
+            console.log('🔧 Force HTTPS Fix iniciado');
+            
+            // Interceptar todas las llamadas fetch
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+                // Si la URL es HTTP y estamos en HTTPS, convertir a HTTPS
+                if (typeof url === 'string' && url.startsWith('http://') && window.location.protocol === 'https:') {
+                    const httpsUrl = url.replace('http://', 'https://');
+                    console.log('🔄 Convirtiendo URL HTTP a HTTPS:', url, '->', httpsUrl);
+                    url = httpsUrl;
+                }
+                
+                return originalFetch.call(this, url, options);
+            };
+            
+            console.log('✅ Force HTTPS Fix activado');
+        })();
+    </script>
+    
+    <!-- Force HTTPS Fix para evitar Mixed Content -->
+    <script>
+        (function() {
+            'use strict';
+            
+            console.log('🔧 Force HTTPS Fix iniciado');
+            
+            // Interceptar todas las llamadas fetch
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+                // Si la URL es HTTP y estamos en HTTPS, convertir a HTTPS
+                if (typeof url === 'string' && url.startsWith('http://') && window.location.protocol === 'https:') {
+                    const httpsUrl = url.replace('http://', 'https://');
+                    console.log('🔄 Convirtiendo URL HTTP a HTTPS:', url, '->', httpsUrl);
+                    url = httpsUrl;
+                }
+                
+                return originalFetch.call(this, url, options);
+            };
+            
+            console.log('✅ Force HTTPS Fix activado');
+        })();
     </script>
 </body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mixed Content Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .info { background: #e7f3ff; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Mixed Content Debug Test</h1>
+    
+    <div class="info">
+        <h2>Información del contexto:</h2>
+        <p><strong>URL actual:</strong> <span id="currentUrl"></span></p>
+        <p><strong>Protocolo:</strong> <span id="protocol"></span></p>
+        <p><strong>Host:</strong> <span id="host"></span></p>
+        <p><strong>Puerto:</strong> <span id="port"></span></p>
+    </div>
+    
+    <div class="info">
+        <h2>URLs generadas dinámicamente:</h2>
+        <p><strong>API Images:</strong> <span id="apiImages"></span></p>
+        <p><strong>API Users:</strong> <span id="apiUsers"></span></p>
+    </div>
+    
+    <div id="results">
+        <h2>Resultados del test:</h2>
+    </div>
+    
+    <script>
+        // Simular exactamente la lógica de los templates
+        const apiUrlImages = `${window.location.protocol}//${window.location.host}/images`;
+        const apiUrlUsers = `${window.location.protocol}//${window.location.host}/users/`;
+        
+        // Mostrar información
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('protocol').textContent = window.location.protocol;
+        document.getElementById('host').textContent = window.location.host;
+        document.getElementById('port').textContent = window.location.port || 'default';
+        document.getElementById('apiImages').textContent = apiUrlImages;
+        document.getElementById('apiUsers').textContent = apiUrlUsers;
+        
+        const resultsDiv = document.getElementById('results');
+        
+        // Verificar Mixed Content
+        const isHttps = window.location.protocol === 'https:';
+        const apiIsHttps = apiUrlImages.startsWith('https:');
+        const isMixedContent = isHttps && !apiIsHttps;
+        
+        if (isMixedContent) {
+            resultsDiv.innerHTML += '<div class="error">❌ MIXED CONTENT DETECTADO</div>';
+        } else {
+            resultsDiv.innerHTML += '<div class="success">✅ NO MIXED CONTENT</div>';
+        }
+        
+        // Test de fetch
+        console.log('Testing fetch to:', apiUrlImages);
+        resultsDiv.innerHTML += '<div class="info">🧪 Probando fetch...</div>';
+        
+        fetch(apiUrlImages)
+            .then(response => {
+                console.log('Fetch success:', response.status);
+                resultsDiv.innerHTML += `<div class="success">✅ Fetch exitoso: ${response.status}</div>`;
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                resultsDiv.innerHTML += `<div class="error">❌ Fetch falló: ${error.message}</div>`;
+            });
+    </script>
+</body>
+</html>

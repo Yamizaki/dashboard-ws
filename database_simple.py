@@ -173,5 +173,81 @@ def get_all_users(limit: int = 50, offset: int = 0):
     return {"users": users, "total": total, "limit": limit, "offset": offset}
 
 
+def reset_database():
+    """Resetear completamente la base de datos (eliminar todas las tablas y recrearlas)"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        # Eliminar todas las tablas
+        cursor.execute("DROP TABLE IF EXISTS images")
+        cursor.execute("DROP TABLE IF EXISTS users")
+        
+        conn.commit()
+        conn.close()
+        
+        # Reinicializar la base de datos
+        init_database()
+        
+        return True
+    except Exception as e:
+        conn.close()
+        raise e
+
+
+def clear_all_data():
+    """Limpiar todos los datos pero mantener la estructura de las tablas"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        # Limpiar todas las tablas
+        cursor.execute("DELETE FROM images")
+        cursor.execute("DELETE FROM users")
+        
+        # Resetear los contadores de autoincrement
+        cursor.execute("DELETE FROM sqlite_sequence WHERE name='images'")
+        cursor.execute("DELETE FROM sqlite_sequence WHERE name='users'")
+        
+        conn.commit()
+        conn.close()
+        
+        return True
+    except Exception as e:
+        conn.close()
+        raise e
+
+
+def get_database_stats():
+    """Obtener estadísticas de la base de datos"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        # Contar imágenes
+        cursor.execute("SELECT COUNT(*) FROM images")
+        images_count = cursor.fetchone()[0]
+        
+        # Contar usuarios
+        cursor.execute("SELECT COUNT(*) FROM users")
+        users_count = cursor.fetchone()[0]
+        
+        # Obtener tamaño del archivo de base de datos
+        db_size = os.path.getsize(DATABASE_PATH) if os.path.exists(DATABASE_PATH) else 0
+        
+        conn.close()
+        
+        return {
+            "images_count": images_count,
+            "users_count": users_count,
+            "database_size_bytes": db_size,
+            "database_size_mb": round(db_size / (1024 * 1024), 2),
+            "database_path": DATABASE_PATH
+        }
+    except Exception as e:
+        conn.close()
+        raise e
+
+
 # Inicializar la base de datos al importar el módulo
 init_database()

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -11,9 +11,42 @@ from database_simple import (
     get_user,
     get_all_images,
     get_all_users,
+    reset_database,
+    clear_all_data,
+    get_database_stats,
 )
+from config import config
 
 app = FastAPI(title="Image & User API", version="1.0.0")
+
+def process_template(template_path: str, request: Request, replacements: dict = None) -> str:
+    """
+    Procesa un template HTML reemplazando URLs dinámicamente
+    """
+    with open(template_path, "r", encoding="utf-8") as file:
+        html_template = file.read()
+    
+    # Reemplazos automáticos basados en el request
+    base_url = config.get_api_base_url(request)
+    
+    # Reemplazos por defecto
+    default_replacements = {
+        'this.apiUrl = "http://127.0.0.1:8000/users/";': f'this.apiUrl = "{config.get_users_endpoint(request)}";',
+        'this.apiUrl = "http://localhost:8000/users/";': f'this.apiUrl = "{config.get_users_endpoint(request)}";',
+        'this.apiUrl = "http://localhost:8000/images";': f'this.apiUrl = "{config.get_images_endpoint(request)}";',
+        '"http://localhost:8000/images/save"': f'"{base_url}/images/save"',
+        '"http://127.0.0.1:8000/images/save"': f'"{base_url}/images/save"',
+    }
+    
+    # Agregar reemplazos personalizados si se proporcionan
+    if replacements:
+        default_replacements.update(replacements)
+    
+    # Aplicar todos los reemplazos
+    for old_text, new_text in default_replacements.items():
+        html_template = html_template.replace(old_text, new_text)
+    
+    return html_template
 
 # Configurar CORS para permitir todas las conexiones (solo para desarrollo)
 app.add_middleware(
@@ -307,16 +340,159 @@ async def test_image_endpoint(data: dict):
     }
 
 
-@app.get("/ranking", response_class=HTMLResponse)
-async def ranking():
-    """
-    Endpoint que renderiza una página HTML con el ranking de usuarios cargando un archivo externo
-    """
-    # Leer el archivo HTML externo
-    with open("templates/ranking.html", "r", encoding="utf-8") as file:
-        html_template = file.read()
+# ==================== DATABASE MANAGEMENT ENDPOINTS ====================
 
-    return HTMLResponse(content=html_template)
+@app.get("/database/stats")
+async def get_db_stats():
+    """
+    Obtener estadísticas de la base de datos
+    """
+    try:
+        stats = get_database_stats()
+        return {
+            "success": True,
+            "message": "Database statistics retrieved successfully",
+            "data": stats
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error getting database stats: {str(e)}")
+
+
+@app.post("/database/reset")
+async def reset_db():
+    """
+    🚨 PELIGRO: Resetear completamente la base de datos
+    Elimina todas las tablas y las recrea vacías
+    """
+    try:
+        # Obtener estadísticas antes del reset
+        stats_before = get_database_stats()
+        
+        # Resetear la base de datos
+        reset_database()
+        
+        # Obtener estadísticas después del reset
+        stats_after = get_database_stats()
+        
+        return {
+            "success": True,
+            "message": "Database reset successfully",
+            "warning": "All data has been permanently deleted",
+            "stats_before": stats_before,
+            "stats_after": stats_after
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error resetting database: {str(e)}")
+
+
+@app.post("/database/clear")
+async def clear_db():
+    """
+    🚨 PELIGRO: Limpiar todos los datos de la base de datos
+    Mantiene la estructura pero elimina todos los registros
+    """
+    try:
+        # Obtener estadísticas antes de limpiar
+        stats_before = get_database_stats()
+        
+        # Limpiar todos los datos
+        clear_all_data()
+        
+        # Obtener estadísticas después de limpiar
+        stats_after = get_database_stats()
+        
+        return {
+            "success": True,
+            "message": "Database cleared successfully",
+            "warning": "All data has been permanently deleted",
+            "stats_before": stats_before,
+            "stats_after": stats_after
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error clearing database: {str(e)}")
+
+
+@app.delete("/database/images")
+async def clear_images():
+    """
+    Eliminar todas las imágenes de la base de datos
+    """
+    try:
+        from database_simple import get_connection
+        
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        # Contar imágenes antes
+        cursor.execute("SELECT COUNT(*) FROM images")
+        count_before = cursor.fetchone()[0]
+        
+        # Eliminar todas las imágenes
+        cursor.execute("DELETE FROM images")
+        cursor.execute("DELETE FROM sqlite_sequence WHERE name='images'")
+        
+        conn.commit()
+        conn.close()
+        
+        return {
+            "success": True,
+            "message": f"All {count_before} images deleted successfully",
+            "images_deleted": count_before
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting images: {str(e)}")
+
+
+@app.delete("/database/users")
+async def clear_users():
+    """
+    Eliminar todos los usuarios de la base de datos
+    """
+    try:
+        from database_simple import get_connection
+        
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        # Contar usuarios antes
+        cursor.execute("SELECT COUNT(*) FROM users")
+        count_before = cursor.fetchone()[0]
+        
+        # Eliminar todos los usuarios
+        cursor.execute("DELETE FROM users")
+        cursor.execute("DELETE FROM sqlite_sequence WHERE name='users'")
+        
+        conn.commit()
+        conn.close()
+        
+        return {
+            "success": True,
+            "message": f"All {count_before} users deleted successfully",
+            "users_deleted": count_before
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting users: {str(e)}")
+
+
+# ==================== TEMPLATE ENDPOINTS ====================
+
+
+@app.get("/ranking", response_class=HTMLResponse)
+async def ranking(request: Request):
+    """
+    Endpoint que renderiza una página HTML con el ranking de usuarios
+    """
+    html_content = process_template("templates/ranking.html", request)
+    return HTMLResponse(content=html_content)
+
+@app.get("/photos", response_class=HTMLResponse)
+async def photos(request: Request):
+    """
+    Endpoint que renderiza una página HTML con la galería de fotos
+    """
+    print("user - photos endpoint accessed")
+    html_content = process_template("templates/photos.html", request)
+    return HTMLResponse(content=html_content)
 
 
 if __name__ == "__main__":

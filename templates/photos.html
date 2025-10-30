@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎃 Halloween Gallery - Capturas del Terror 📸</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: linear-gradient(135deg, #000000, #1a1a1a, #000000);
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 102, 0, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 255, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: spookyGlow 3s ease-in-out infinite alternate;
+}
+
+.title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 3rem;
+    color: #ff6600;
+    text-shadow: 
+        0 0 10px #ff6600,
+        0 0 20px #ff6600,
+        2px 2px 4px #000000;
+    margin-bottom: 10px;
+    animation: flicker 2s infinite;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000000;
+    font-weight: 600;
+    font-family: 'Exo 2', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* Status Bar */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 15px 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 2px solid #ff6600;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #00ff00;
+    font-weight: 700;
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px #000000;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 1px;
+}
+
+.pulse-dot {
+    width: 12px;
+    height: 12px;
+    background: #00ff00;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 15px #00ff00;
+}
+
+.stats, .last-update {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px #000000;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.stats span, .last-update span {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 60px;
+}
+
+.loading .pumpkin {
+    font-size: 4rem;
+    animation: bounce 1s infinite;
+}
+
+.loading p {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-top: 20px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px #000000;
+    font-family: 'Exo 2', sans-serif;
+}
+
+/* Gallery Grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+.image-card {
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #333333;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.image-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #ff6600;
+    box-shadow: 
+        0 15px 40px rgba(255, 102, 0, 0.4),
+        0 0 20px rgba(255, 102, 0, 0.2);
+}
+
+.image-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.image-card:hover::before {
+    left: 100%;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-card:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.image-card:hover .image-overlay {
+    transform: translateY(0);
+}
+
+.image-id {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    color: #ff6600;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.image-date {
+    font-family: 'Rajdhani', sans-serif;
+    color: #00ff00;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.new-image {
+    animation: newImagePulse 2s ease-in-out;
+    border-color: #00ff00 !important;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.6) !important;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    position: relative;
+    margin: 5% auto;
+    max-width: 90%;
+    max-height: 90%;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: #ffffff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #ff6600;
+}
+
+#modalImage {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 10px;
+    border: 3px solid #ff6600;
+    box-shadow: 0 0 30px rgba(255, 102, 0, 0.5);
+}
+
+.modal-info {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    border: 1px solid #ff6600;
+}
+
+.modal-info p {
+    margin: 5px 0;
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+/* Notifications */
+.notifications {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 350px;
+}
+
+.notification {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(26, 26, 26, 0.95));
+    color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ff6600;
+    box-shadow: 0 5px 20px rgba(255, 102, 0, 0.5);
+    animation: slideInRight 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.notification.new-image {
+    border-color: #00ff00;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 255, 0, 0.2));
+}
+
+.notification-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #ff6600;
+    text-shadow: 1px 1px 2px #000000;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.notification-message {
+    font-size: 0.9rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000000;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+}
+
+/* Animations */
+@keyframes spookyGlow {
+    0% { text-shadow: 0 0 10px #ff6600, 0 0 20px #ff6600, 2px 2px 4px #000000; }
+    100% { text-shadow: 0 0 20px #ff6600, 0 0 30px #ff6600, 2px 2px 4px #000000; }
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes newImagePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Download Buttons */
+.download-btn {
+    background: linear-gradient(135deg, #ff6600, #ff8833);
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px #000000;
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+    margin-top: 15px;
+}
+
+.download-btn:hover {
+    background: linear-gradient(135deg, #ff8833, #ffaa55);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
+}
+
+.download-all-btn {
+    background: linear-gradient(135deg, #00ff00, #33ff33);
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+}
+
+.download-all-btn:hover {
+    background: linear-gradient(135deg, #33ff33, #66ff66);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 0, 0.4);
+}
+
+.download-mini-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 102, 0, 0.9);
+    color: #ffffff;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    box-shadow: 0 2px 10px rgba(255, 102, 0, 0.4);
+}
+
+.image-card:hover .download-mini-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.download-mini-btn:hover {
+    background: rgba(255, 102, 0, 1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.6);
+}
+
+.download-all-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Notification styles for download */
+.notification.download {
+    border-color: #00ff00;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 255, 0, 0.2));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+    
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    
+    .status-bar {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .notifications {
+        position: relative;
+        top: auto;
+        right: auto;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .modal-content {
+        margin: 10% auto;
+        max-width: 95%;
+    }
+    
+    .image-wrapper {
+        height: 200px;
+    }
+}
+    </style>
+        <div class="container">
+        <header class="header">
+            <h1 class="title">
+                📸 GALERÍA DEL TERROR 🎃
+            </h1>
+            <p class="subtitle">Capturas espeluznantes de los jugadores</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="live-indicator">
+                <span class="pulse-dot"></span>
+                <span>EN VIVO</span>
+            </div>
+            <div class="stats">
+                <span>Total: <span id="totalImages">--</span></span>
+            </div>
+            <div class="download-all-container">
+                <button class="download-all-btn" onclick="window.gallery.downloadAllImages()">
+                    📦 Descargar Todas
+                </button>
+            </div>
+            <div class="last-update">
+                Última actualización: <span id="lastUpdate">--</span>
+            </div>
+        </div>
+
+        <div class="notifications" id="notifications"></div>
+
+        <div class="gallery" id="gallery">
+            <div class="loading">
+                <div class="pumpkin">🎃</div>
+                <p>Cargando capturas terroríficas...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <img id="modalImage" src="" alt="Imagen ampliada">
+            <div class="modal-info">
+                <p id="modalDate"></p>
+                <p id="modalId"></p>
+                <button class="download-btn" id="downloadBtn">
+                    📥 Descargar Imagen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class HalloweenGallery {
+            constructor() {
+              this.apiUrl = "http://localhost:8000/images"; // Cambia por tu endpoint
+              this.galleryContainer = document.getElementById("gallery");
+              this.notificationsContainer = document.getElementById("notifications");
+              this.totalImagesElement = document.getElementById("totalImages");
+              this.lastUpdateElement = document.getElementById("lastUpdate");
+              this.modal = document.getElementById("imageModal");
+              this.modalImage = document.getElementById("modalImage");
+              this.modalDate = document.getElementById("modalDate");
+              this.modalId = document.getElementById("modalId");
+              this.closeModal = document.getElementById("closeModal");
+          
+              this.previousData = [];
+              this.updateInterval = 10000; // 10 segundos
+              this.updateTimer = null;
+          
+              this.init();
+            }
+          
+            async init() {
+              try {
+                await this.fetchAndDisplayImages();
+                this.startRealTimeUpdates();
+                this.setupModalEvents();
+              } catch (error) {
+                this.showError(error.message);
+              }
+            }
+          
+            setupModalEvents() {
+              // Cerrar modal
+              this.closeModal.addEventListener("click", () => {
+                this.modal.style.display = "none";
+              });
+          
+              // Cerrar modal al hacer clic fuera de la imagen
+              this.modal.addEventListener("click", (e) => {
+                if (e.target === this.modal) {
+                  this.modal.style.display = "none";
+                }
+              });
+          
+              // Cerrar modal con ESC
+              document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && this.modal.style.display === "block") {
+                  this.modal.style.display = "none";
+                }
+              });
+          
+              // Botón de descarga en modal
+              const downloadBtn = document.getElementById('downloadBtn');
+              downloadBtn.addEventListener('click', () => {
+                const imageSrc = this.modalImage.src;
+                const imageId = this.modalId.textContent.replace('ID: ', '');
+                this.downloadImage(imageSrc, imageId);
+              });
+            }
+          
+            startRealTimeUpdates() {
+              this.updateTimer = setInterval(() => {
+                this.fetchAndDisplayImages();
+              }, this.updateInterval);
+            }
+          
+            async fetchAndDisplayImages() {
+              try {
+                const response = await fetch(this.apiUrl);
+          
+                if (!response.ok) {
+                  throw new Error(`Error HTTP: ${response.status}`);
+                }
+          
+                const data = await response.json();
+                console.log("API Response:", data);
+          
+                if (!data.success || !data.data) {
+                  throw new Error("Formato de datos inválido");
+                }
+          
+                // Detectar nuevas imágenes
+                this.detectNewImages(data.data);
+          
+                this.displayGallery(data.data);
+                this.updateStats(data);
+                this.updateLastUpdateTime();
+          
+                // Guardar datos actuales para la próxima comparación
+                this.previousData = [...data.data];
+              } catch (error) {
+                console.error("Error fetching images:", error);
+                this.showNotification(
+                  "⚠️ Error de conexión",
+                  "No se pudieron cargar las imágenes",
+                  "error"
+                );
+              }
+            }
+          
+            detectNewImages(newData) {
+              if (this.previousData.length === 0) return;
+          
+              // Buscar imágenes nuevas comparando IDs
+              const previousIds = this.previousData.map((img) => img.id);
+              const newImages = newData.filter((img) => !previousIds.includes(img.id));
+          
+              newImages.forEach((image) => {
+                this.showNotification(
+                  "📸 Nueva captura!",
+                  `Se agregó una nueva imagen (ID: ${image.id})`,
+                  "new-image"
+                );
+              });
+            }
+          
+            displayGallery(images) {
+              if (images.length === 0) {
+                this.showNoImages();
+                return;
+              }
+          
+              // Ordenar por fecha más reciente primero
+              const sortedImages = images.sort(
+                (a, b) => new Date(b.created_at) - new Date(a.created_at)
+              );
+          
+              const galleryHTML = sortedImages
+                .map((image, index) => {
+                  const isNew = this.isNewImage(image);
+                  const formattedDate = this.formatDate(image.created_at);
+                  const imageData = this.formatImageData(image.image_data);
+          
+                  return `
+                          <div class="image-card ${isNew ? "new-image" : ""}" 
+                               style="animation-delay: ${index * 0.1}s"
+                               data-image-id="${image.id}"
+                               onclick="window.gallery.openModal('${imageData}', '${formattedDate}', ${
+                    image.id
+                  })">
+                              <div class="image-wrapper">
+                                  <img class="gallery-image" 
+                                       src="${imageData}" 
+                                       alt="Captura ${image.id}"
+                                       loading="lazy">
+                                  <div class="image-overlay">
+                                      <div class="image-id">ID: ${image.id}</div>
+                                      <div class="image-date">${formattedDate}</div>
+                                      <button class="download-mini-btn" 
+                                              onclick="event.stopPropagation(); window.gallery.downloadImage('${imageData}', ${image.id})">
+                                          📥
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+                })
+                .join("");
+          
+              this.galleryContainer.innerHTML = galleryHTML;
+            }
+          
+            formatImageData(imageData) {
+              // Si ya tiene el prefijo data:image, lo devuelve tal como está
+              if (imageData.startsWith("data:image/")) {
+                return imageData;
+              }
+          
+              // Si no tiene prefijo, asume que es base64 y agrega el prefijo común
+              return `data:image/jpeg;base64,${imageData}`;
+            }
+          
+            isNewImage(image) {
+              if (this.previousData.length === 0) return false;
+              return !this.previousData.some((prevImg) => prevImg.id === image.id);
+            }
+          
+            formatDate(dateString) {
+              const date = new Date(dateString);
+              return date.toLocaleString("es-ES", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              });
+            }
+          
+            openModal(imageSrc, date, id) {
+              this.modalImage.src = imageSrc;
+              this.modalDate.textContent = `Fecha: ${date}`;
+              this.modalId.textContent = `ID: ${id}`;
+              this.modal.style.display = "block";
+            }
+          
+            updateStats(data) {
+              this.totalImagesElement.textContent = data.pagination.total;
+            }
+          
+            updateLastUpdateTime() {
+              const now = new Date();
+              const timeString = now.toLocaleTimeString("es-ES", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              });
+              this.lastUpdateElement.textContent = timeString;
+            }
+          
+            showNotification(title, message, type = "default") {
+              const notification = document.createElement("div");
+              notification.className = `notification ${type}`;
+          
+              notification.innerHTML = `
+                      <div class="notification-title">${title}</div>
+                      <div class="notification-message">${message}</div>
+                  `;
+          
+              this.notificationsContainer.appendChild(notification);
+          
+              // Reproducir sonido de notificación
+              this.playNotificationSound(type);
+          
+              // Remover después de 4 segundos
+              setTimeout(() => {
+                if (notification.parentNode) {
+                  notification.style.animation = "slideInRight 0.5s ease-out reverse";
+                  setTimeout(() => {
+                    notification.remove();
+                  }, 500);
+                }
+              }, 4000);
+          
+              // Limitar a máximo 5 notificaciones
+              const notifications = this.notificationsContainer.children;
+              if (notifications.length > 5) {
+                notifications[0].remove();
+              }
+            }
+          
+            playNotificationSound(type) {
+              try {
+                const audioContext = new (window.AudioContext ||
+                  window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+          
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+          
+                // Diferentes tonos para diferentes tipos
+                switch (type) {
+                  case "new-image":
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                    break;
+                  case "download":
+                    oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+                    break;
+                  case "error":
+                    oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                    break;
+                  default:
+                    oscillator.frequency.setValueAtTime(450, audioContext.currentTime);
+                }
+          
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(
+                  0.01,
+                  audioContext.currentTime + 0.3
+                );
+          
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+              } catch (error) {
+                // Silenciar errores de audio
+              }
+            }
+          
+            showError(message) {
+              this.galleryContainer.innerHTML = `
+                      <div class="loading">
+                          <div style="font-size: 4rem;">💀</div>
+                          <p style="color: #ff4444;">Error: ${this.escapeHtml(
+                            message
+                          )}</p>
+                          <button onclick="location.reload()" style="
+                              margin-top: 20px;
+                              padding: 10px 20px;
+                              background: #ff6600;
+                              color: white;
+                              border: none;
+                              border-radius: 10px;
+                              cursor: pointer;
+                              font-family: inherit;
+                              font-weight: bold;
+                          ">Reintentar</button>
+                      </div>
+                  `;
+            }
+          
+            showNoImages() {
+              this.galleryContainer.innerHTML = `
+                      <div class="loading">
+                          <div style="font-size: 4rem;">📸</div>
+                          <p>No hay imágenes disponibles en este momento</p>
+                      </div>
+                  `;
+            }
+          
+            downloadImage(imageSrc, imageId) {
+              try {
+                // Crear un enlace temporal para la descarga
+                const link = document.createElement('a');
+                link.href = imageSrc;
+                link.download = `halloween_capture_${imageId}_${new Date().getTime()}.jpg`;
+                
+                // Agregar al DOM temporalmente y hacer clic
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Mostrar notificación de éxito
+                this.showNotification(
+                  '📥 Descarga iniciada!',
+                  `Imagen ${imageId} descargándose...`,
+                  'download'
+                );
+                
+              } catch (error) {
+                console.error('Error downloading image:', error);
+                this.showNotification(
+                  '❌ Error de descarga',
+                  'No se pudo descargar la imagen',
+                  'error'
+                );
+              }
+            }
+          
+            downloadAllImages() {
+              if (this.previousData.length === 0) {
+                this.showNotification(
+                  '⚠️ Sin imágenes',
+                  'No hay imágenes para descargar',
+                  'error'
+                );
+                return;
+              }
+          
+              this.showNotification(
+                '📦 Descarga masiva',
+                `Descargando ${this.previousData.length} imágenes...`,
+                'download'
+              );
+          
+              // Descargar cada imagen con un pequeño delay
+              this.previousData.forEach((image, index) => {
+                setTimeout(() => {
+                  const imageData = this.formatImageData(image.image_data);
+                  this.downloadImage(imageData, image.id);
+                }, index * 500); // 500ms de delay entre descargas
+              });
+            }
+          
+            escapeHtml(text) {
+              const div = document.createElement("div");
+              div.textContent = text;
+              return div.innerHTML;
+            }
+          }
+          
+          // Inicializar la galería cuando el DOM esté listo
+          document.addEventListener("DOMContentLoaded", () => {
+            window.gallery = new HalloweenGallery();
+          });
+          
+          // Limpiar timers cuando se cierre la página
+          window.addEventListener("beforeunload", () => {
+            if (window.gallery && window.gallery.updateTimer) {
+              clearInterval(window.gallery.updateTimer);
+            }
+          });
+          
+    </script>
+</body>
+</html>

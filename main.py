@@ -575,8 +575,9 @@ async def photos(request: Request):
     Endpoint que renderiza una página HTML con la galería de fotos
     """
     print("user - photos endpoint accessed")
-    html_content = process_template("templates/photos.html", request)
-    return HTMLResponse(content=html_content)
+    with open("templates/photos.html", "r", encoding="utf-8") as file:
+        html_template = file.read()
+    return HTMLResponse(content=html_template)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mixed Content Fix</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Test Mixed Content Fix</h1>
+    
+    <div id="info">
+        <h2>Información del contexto:</h2>
+        <p><strong>URL actual:</strong> <span id="currentUrl"></span></p>
+        <p><strong>Protocolo:</strong> <span id="protocol"></span></p>
+        <p><strong>Host:</strong> <span id="host"></span></p>
+        <p><strong>API URL generada:</strong> <span id="apiUrl"></span></p>
+    </div>
+    
+    <div id="results">
+        <h2>Resultados del test:</h2>
+    </div>
+    
+    <script>
+        // Simular la lógica de los templates
+        const apiUrl = `${window.location.protocol}//${window.location.host}/images`;
+        
+        // Mostrar información
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('protocol').textContent = window.location.protocol;
+        document.getElementById('host').textContent = window.location.host;
+        document.getElementById('apiUrl').textContent = apiUrl;
+        
+        // Verificar si es Mixed Content
+        const isHttps = window.location.protocol === 'https:';
+        const apiIsHttps = apiUrl.startsWith('https:');
+        const isMixedContent = isHttps && !apiIsHttps;
+        
+        const resultsDiv = document.getElementById('results');
+        
+        if (isMixedContent) {
+            resultsDiv.innerHTML += '<div class="result error">❌ MIXED CONTENT: Página HTTPS intentando acceder a API HTTP</div>';
+        } else {
+            resultsDiv.innerHTML += '<div class="result success">✅ NO MIXED CONTENT: Protocolos coinciden</div>';
+        }
+        
+        // Test de fetch (opcional)
+        resultsDiv.innerHTML += '<div class="result">🧪 Probando fetch a API...</div>';
+        
+        fetch(apiUrl)
+            .then(response => {
+                resultsDiv.innerHTML += `<div class="result success">✅ Fetch exitoso: ${response.status}</div>`;
+            })
+            .catch(error => {
+                resultsDiv.innerHTML += `<div class="result error">❌ Fetch falló: ${error.message}</div>`;
+            });
+    </script>
+</body>
+</html>

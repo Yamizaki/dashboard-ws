@@ -3,7 +3,7 @@ import base64
 import json
 
 # URL base del API
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://0.0.0.1:8025"
 
 def test_upload_image():
     """Ejemplo de cómo subir una imagen en base64"""

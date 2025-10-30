@@ -19,7 +19,7 @@ This request has been blocked; the content must be served over HTTPS.
 ### 2. **Procesamiento Mejorado de Templates**
 ```python
 # Antes (hardcodeado)
-this.apiUrl = "http://localhost:8000/images";
+this.apiUrl = "http://0.0.0.1:8025/images";
 
 # Después (dinámico)
 this.apiUrl = "https://game.infinityhealth.fit/images";
@@ -35,8 +35,8 @@ API_PROTOCOL=https
 
 ### 4. **Patrones de Reemplazo Completos**
 La función `process_template()` ahora captura:
-- `http://localhost:8000/images` → `https://game.infinityhealth.fit/images`
-- `http://127.0.0.1:8000/users/` → `https://game.infinityhealth.fit/users/`
+- `http://0.0.0.1:8025/images` → `https://game.infinityhealth.fit/images`
+- `http://0.0.0.1:8025/users/` → `https://game.infinityhealth.fit/users/`
 - Todos los puertos y variaciones posibles
 
 ## 📊 URLs Finales Generadas
@@ -61,8 +61,8 @@ La función `process_template()` ahora captura:
 ### Desarrollo Local (HTTP)
 ```bash
 # Cambiar .env
-API_HOST=localhost
-API_PORT=8000
+API_HOST=0.0.0.1
+API_PORT=8025
 API_PROTOCOL=http
 ```
 

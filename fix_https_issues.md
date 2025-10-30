@@ -48,8 +48,8 @@ touch favicon.ico
 1. **Local (HTTP)**:
    ```bash
    # Cambiar .env para desarrollo
-   API_HOST=localhost
-   API_PORT=8000
+   API_HOST=0.0.0.1
+   API_PORT=8025
    API_PROTOCOL=http
    ```
 

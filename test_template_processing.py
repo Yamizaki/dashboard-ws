@@ -35,12 +35,12 @@ def test_template_processing():
         processed_content = process_template("templates/photos.html", mock_request)
         
         # Verificar que no queden URLs HTTP
-        if "http://localhost:8000" in processed_content:
+        if "http://0.0.0.1:8025" in processed_content:
             print("❌ ERROR: Aún quedan URLs HTTP sin reemplazar")
             # Encontrar las líneas problemáticas
             lines = processed_content.split('\n')
             for i, line in enumerate(lines, 1):
-                if "http://localhost:8000" in line:
+                if "http://0.0.0.1:8025" in line:
                     print(f"   Línea {i}: {line.strip()}")
         else:
             print("✅ SUCCESS: Todas las URLs HTTP fueron reemplazadas")
@@ -59,7 +59,7 @@ def test_template_processing():
     try:
         processed_content = process_template("templates/ranking.html", mock_request)
         
-        if "http://127.0.0.1:8000" in processed_content:
+        if "http://0.0.0.1:8025" in processed_content:
             print("❌ ERROR: Aún quedan URLs HTTP sin reemplazar")
         else:
             print("✅ SUCCESS: Todas las URLs HTTP fueron reemplazadas")

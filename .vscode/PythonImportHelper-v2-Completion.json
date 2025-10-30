@@ -512,7 +512,7 @@
         "kind": 6,
         "importPath": "config",
         "description": "config",
-        "peekOfCode": "class Config:\n    \"\"\"\n    Configuración centralizada para la aplicación\n    \"\"\"\n    # API Configuration\n    API_HOST: str = os.getenv(\"API_HOST\", \"localhost\")\n    API_PORT: int = int(os.getenv(\"API_PORT\", \"8000\"))\n    API_PROTOCOL: str = os.getenv(\"API_PROTOCOL\", \"http\")\n    @classmethod\n    def get_api_base_url(cls, request: Optional[object] = None) -> str:",
+        "peekOfCode": "class Config:\n    \"\"\"\n    Configuración centralizada para la aplicación\n    \"\"\"\n    # API Configuration\n    API_HOST: str = os.getenv(\"API_HOST\", \"0.0.0.1\")\n    API_PORT: int = int(os.getenv(\"API_PORT\", \"8025\"))\n    API_PROTOCOL: str = os.getenv(\"API_PROTOCOL\", \"http\")\n    @classmethod\n    def get_api_base_url(cls, request: Optional[object] = None) -> str:",
         "detail": "config",
         "documentation": {}
     },
@@ -872,7 +872,7 @@
         "kind": 5,
         "importPath": "test_client",
         "description": "test_client",
-        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef test_upload_image():\n    \"\"\"Ejemplo de cómo subir una imagen en base64\"\"\"\n    # Imagen de ejemplo (1x1 pixel transparente PNG)\n    sample_image_b64 = \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==\"\n    # Datos para enviar\n    data = {\n        \"image_data\": sample_image_b64\n    }\n    # Hacer POST request",
+        "peekOfCode": "BASE_URL = \"http://0.0.0.1:8025\"\ndef test_upload_image():\n    \"\"\"Ejemplo de cómo subir una imagen en base64\"\"\"\n    # Imagen de ejemplo (1x1 pixel transparente PNG)\n    sample_image_b64 = \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==\"\n    # Datos para enviar\n    data = {\n        \"image_data\": sample_image_b64\n    }\n    # Hacer POST request",
         "detail": "test_client",
         "documentation": {}
     },
@@ -953,7 +953,7 @@
         "kind": 5,
         "importPath": "test_frontend_format",
         "description": "test_frontend_format",
-        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_frontend_payload():\n    \"\"\"Crear payload en el formato que envía tu frontend\"\"\"\n    # Crear imagen JPEG de prueba (muy simple)\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    # Formato exacto que envía tu frontend\n    payload = {\n        \"image_data_base64\": base64_image,\n        \"mime_type\": \"image/jpeg\",",
+        "peekOfCode": "BASE_URL = \"http://0.0.0.1:8025\"\ndef create_frontend_payload():\n    \"\"\"Crear payload en el formato que envía tu frontend\"\"\"\n    # Crear imagen JPEG de prueba (muy simple)\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    # Formato exacto que envía tu frontend\n    payload = {\n        \"image_data_base64\": base64_image,\n        \"mime_type\": \"image/jpeg\",",
         "detail": "test_frontend_format",
         "documentation": {}
     },
@@ -989,7 +989,7 @@
         "kind": 5,
         "importPath": "test_gemini_format",
         "description": "test_gemini_format",
-        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_gemini_payload():\n    \"\"\"Crear payload en formato Gemini API\"\"\"\n    # Crear imagen de prueba\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    base64_image = base64.b64encode(png_data).decode('utf-8')\n    # Formato exacto que envía el frontend\n    payload = {\n        \"contents\": [{\n            \"parts\": [",
+        "peekOfCode": "BASE_URL = \"http://0.0.0.1:8025\"\ndef create_gemini_payload():\n    \"\"\"Crear payload en formato Gemini API\"\"\"\n    # Crear imagen de prueba\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    base64_image = base64.b64encode(png_data).decode('utf-8')\n    # Formato exacto que envía el frontend\n    payload = {\n        \"contents\": [{\n            \"parts\": [",
         "detail": "test_gemini_format",
         "documentation": {}
     },
@@ -1043,7 +1043,7 @@
         "kind": 5,
         "importPath": "test_image_simple",
         "description": "test_image_simple",
-        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_test_image():\n    \"\"\"Crear una imagen de prueba muy simple en base64\"\"\"\n    # Imagen PNG 1x1 pixel transparente\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    return base64.b64encode(png_data).decode('utf-8')\ndef test_image_upload():\n    \"\"\"Probar subida de imagen\"\"\"\n    print(\"🧪 Probando subida de imagen...\")\n    # Crear imagen de prueba",
+        "peekOfCode": "BASE_URL = \"http://0.0.0.1:8025\"\ndef create_test_image():\n    \"\"\"Crear una imagen de prueba muy simple en base64\"\"\"\n    # Imagen PNG 1x1 pixel transparente\n    png_data = b'\\x89PNG\\r\\n\\x1a\\n\\x00\\x00\\x00\\rIHDR\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x01\\x08\\x06\\x00\\x00\\x00\\x1f\\x15\\xc4\\x89\\x00\\x00\\x00\\rIDATx\\x9cc\\xf8\\xff\\x9f\\x81\\x1e\\x00\\x07\\x82\\x02\\x7f<\\xc8H\\xef\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'\n    return base64.b64encode(png_data).decode('utf-8')\ndef test_image_upload():\n    \"\"\"Probar subida de imagen\"\"\"\n    print(\"🧪 Probando subida de imagen...\")\n    # Crear imagen de prueba",
         "detail": "test_image_simple",
         "documentation": {}
     },
@@ -1088,7 +1088,7 @@
         "kind": 5,
         "importPath": "test_list_endpoints",
         "description": "test_list_endpoints",
-        "peekOfCode": "BASE_URL = \"http://localhost:8000\"\ndef create_sample_images(count=5):\n    \"\"\"Crear algunas imágenes de muestra para probar el listado\"\"\"\n    print(f\"📷 Creando {count} imágenes de muestra...\")\n    # Imagen JPEG simple\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    created_ids = []\n    for i in range(count):\n        payload = {",
+        "peekOfCode": "BASE_URL = \"http://0.0.0.1:8025\"\ndef create_sample_images(count=5):\n    \"\"\"Crear algunas imágenes de muestra para probar el listado\"\"\"\n    print(f\"📷 Creando {count} imágenes de muestra...\")\n    # Imagen JPEG simple\n    jpeg_data = b'\\xff\\xd8\\xff\\xe0\\x00\\x10JFIF\\x00\\x01\\x01\\x01\\x00H\\x00H\\x00\\x00\\xff\\xdb\\x00C\\x00\\x08\\x06\\x06\\x07\\x06\\x05\\x08\\x07\\x07\\x07\\t\\t\\x08\\n\\x0c\\x14\\r\\x0c\\x0b\\x0b\\x0c\\x19\\x12\\x13\\x0f\\x14\\x1d\\x1a\\x1f\\x1e\\x1d\\x1a\\x1c\\x1c $.\\' \",#\\x1c\\x1c(7),01444\\x1f\\'9=82<.342\\xff\\xc0\\x00\\x11\\x08\\x00\\x01\\x00\\x01\\x01\\x01\\x11\\x00\\x02\\x11\\x01\\x03\\x11\\x01\\xff\\xc4\\x00\\x14\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x08\\xff\\xc4\\x00\\x14\\x10\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xda\\x00\\x0c\\x03\\x01\\x00\\x02\\x11\\x03\\x11\\x00\\x3f\\x00\\xaa\\xff\\xd9'\n    base64_image = base64.b64encode(jpeg_data).decode('utf-8')\n    created_ids = []\n    for i in range(count):\n        payload = {",
         "detail": "test_list_endpoints",
         "documentation": {}
     }

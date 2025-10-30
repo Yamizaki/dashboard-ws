@@ -2,7 +2,7 @@ import requests
 import base64
 import json
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://0.0.0.1:8025"
 
 def create_gemini_payload():
     """Crear payload en formato Gemini API"""

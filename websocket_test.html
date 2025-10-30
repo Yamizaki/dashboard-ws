@@ -60,7 +60,7 @@
 
         function connect() {
             try {
-                websocket = new WebSocket('ws://localhost:8000/ws/users');
+                websocket = new WebSocket('ws://0.0.0.1:8025/ws/users');
                 
                 websocket.onopen = function(event) {
                     addMessage('✅ Conectado al WebSocket', 'success');

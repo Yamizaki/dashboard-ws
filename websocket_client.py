@@ -6,7 +6,7 @@ from datetime import datetime
 async def test_websocket():
     """Cliente de prueba para el WebSocket de usuarios"""
     
-    uri = "ws://localhost:8000/ws/users"
+    uri = "ws://0.0.0.1:8025/ws/users"
     
     try:
         async with websockets.connect(uri) as websocket:

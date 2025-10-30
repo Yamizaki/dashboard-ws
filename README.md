@@ -41,4 +41,4 @@ Obtiene información de una imagen
 Obtiene información de un usuario
 
 ## Documentación
-Visita http://localhost:8000/docs para la documentación interactiva de Swagger.
+Visita http://0.0.0.1:8025/docs para la documentación interactiva de Swagger.

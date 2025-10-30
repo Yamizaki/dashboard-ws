@@ -3,7 +3,7 @@ import base64
 import json
 
 # URL del servidor
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://0.0.0.1:8025"
 
 def create_test_image():
     """Crear una imagen de prueba muy simple en base64"""

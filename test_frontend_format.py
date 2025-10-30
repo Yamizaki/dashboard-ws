@@ -3,7 +3,7 @@ import base64
 import json
 import time
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://0.0.0.1:8025"
 
 def create_frontend_payload():
     """Crear payload en el formato que envía tu frontend"""

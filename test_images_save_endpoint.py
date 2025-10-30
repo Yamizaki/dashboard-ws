@@ -67,7 +67,7 @@ def test_images_save_endpoint():
             print(f"⚠️  Test falló con status code: {response.status_code}")
             
     except requests.exceptions.ConnectionError:
-        print("❌ Error de conexión. ¿Está corriendo el servidor en localhost:8000?")
+        print("❌ Error de conexión. ¿Está corriendo el servidor en 0.0.0.1:8025?")
     except requests.exceptions.RequestException as e:
         print(f"❌ Error en la petición: {e}")
     except Exception as e:

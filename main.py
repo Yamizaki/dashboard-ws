@@ -47,40 +47,40 @@ def process_template(
     url_patterns = [
         # Patrones para usuarios
         (
-            'this.apiUrl = "http://127.0.0.1:8000/users/";',
+            'this.apiUrl = "http://0.0.0.1:8025/users/";',
             f'this.apiUrl = "{users_endpoint}";',
         ),
         (
-            'this.apiUrl = "http://localhost:8000/users/";',
+            'this.apiUrl = "http://0.0.0.1:8025/users/";',
             f'this.apiUrl = "{users_endpoint}";',
         ),
         # Patrones para imágenes - TODOS LOS CASOS POSIBLES
         (
-            'this.apiUrl = "http://localhost:8000/images";',
+            'this.apiUrl = "http://0.0.0.1:8025/images";',
             f'this.apiUrl = "{images_endpoint}";',
         ),
         (
-            'this.apiUrl = "http://127.0.0.1:8000/images";',
+            'this.apiUrl = "http://0.0.0.1:8025/images";',
             f'this.apiUrl = "{images_endpoint}";',
         ),
         (
-            'this.apiUrl = "http://localhost:8000/images/";',
+            'this.apiUrl = "http://0.0.0.1:8025/images/";',
             f'this.apiUrl = "{images_endpoint}/";',
         ),
         (
-            'this.apiUrl = "http://127.0.0.1:8000/images/";',
+            'this.apiUrl = "http://0.0.0.1:8025/images/";',
             f'this.apiUrl = "{images_endpoint}/";',
         ),
         # Patrones para endpoints específicos
-        ('"http://localhost:8000/images/save"', f'"{base_url}/images/save"'),
-        ('"http://127.0.0.1:8000/images/save"', f'"{base_url}/images/save"'),
-        ("'http://localhost:8000/images/save'", f"'{base_url}/images/save'"),
-        ("'http://127.0.0.1:8000/images/save'", f"'{base_url}/images/save'"),
+        ('"http://0.0.0.1:8025/images/save"', f'"{base_url}/images/save"'),
+        ('"http://0.0.0.1:8025/images/save"', f'"{base_url}/images/save"'),
+        ("'http://0.0.0.1:8025/images/save'", f"'{base_url}/images/save'"),
+        ("'http://0.0.0.1:8025/images/save'", f"'{base_url}/images/save'"),
         # Patrones genéricos para cualquier puerto
-        ("http://localhost:8000/", f"{base_url}/"),
-        ("http://127.0.0.1:8000/", f"{base_url}/"),
-        ("http://localhost:8025/", f"{base_url}/"),
-        ("http://127.0.0.1:8025/", f"{base_url}/"),
+        ("http://0.0.0.1:8025/", f"{base_url}/"),
+        ("http://0.0.0.1:8025/", f"{base_url}/"),
+        ("http://0.0.0.1:8025/", f"{base_url}/"),
+        ("http://0.0.0.1:8025/", f"{base_url}/"),
         # Comentarios que pueden contener URLs
         ("// Cambia por tu endpoint", f"// Auto-generated: {base_url}"),
         ("# Cambia por tu endpoint", f"# Auto-generated: {base_url}"),
@@ -567,4 +567,4 @@ async def photos(request: Request):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8025)

@@ -3,7 +3,7 @@ import base64
 import json
 import time
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://0.0.0.1:8025"
 
 def create_sample_images(count=5):
     """Crear algunas imágenes de muestra para probar el listado"""

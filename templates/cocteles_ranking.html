@@ -417,7 +417,7 @@
 
       async function fetchRankingData() {
         try {
-          const response = await fetch("/cocteles/leaderboard?limit=100");
+          const response = await fetch("https://game.infinityhealth.fit//cocteles/leaderboard?limit=100");
 
           if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);

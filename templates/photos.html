@@ -575,7 +575,7 @@ body::before {
             constructor() {
               // Forzar HTTPS para evitar Mixed Content
               const protocol = window.location.protocol === 'https:' ? 'https:' : window.location.protocol;
-              this.apiUrl = `${protocol}//${window.location.host}/images`;
+              this.apiUrl = `https://game.infinityhealth.fit/images`;
               console.log('🔍 API URL generada:', this.apiUrl);
               this.galleryContainer = document.getElementById("gallery");
               this.notificationsContainer = document.getElementById("notifications");

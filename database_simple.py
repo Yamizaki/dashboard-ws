@@ -259,39 +259,49 @@ def get_leaderboard(game: str = None, limit: int = 50, offset: int = 0):
     conn = get_connection()
     cursor = conn.cursor()
 
-    if game:
-        cursor.execute(
-            "SELECT id, game, position, name, score, date, timestamp, created_at FROM leaderboard WHERE game = ? ORDER BY score DESC, date DESC LIMIT ? OFFSET ?",
-            (game, limit, offset),
-        )
-        # Contar total para el juego específico
-        cursor.execute("SELECT COUNT(*) FROM leaderboard WHERE game = ?", (game,))
-    else:
-        cursor.execute(
-            "SELECT id, game, position, name, score, date, timestamp, created_at FROM leaderboard ORDER BY score DESC, date DESC LIMIT ? OFFSET ?",
-            (limit, offset),
-        )
-        # Contar total general
-        cursor.execute("SELECT COUNT(*) FROM leaderboard")
+    try:
+        if game:
+            # Primero obtener el total para el juego específico
+            cursor.execute("SELECT COUNT(*) FROM leaderboard WHERE game = ?", (game,))
+            total = cursor.fetchone()[0]
+            
+            # Luego obtener los datos
+            cursor.execute(
+                "SELECT id, game, position, name, score, date, timestamp, created_at FROM leaderboard WHERE game = ? ORDER BY score DESC, date DESC LIMIT ? OFFSET ?",
+                (game, limit, offset),
+            )
+        else:
+            # Primero obtener el total general
+            cursor.execute("SELECT COUNT(*) FROM leaderboard")
+            total = cursor.fetchone()[0]
+            
+            # Luego obtener los datos
+            cursor.execute(
+                "SELECT id, game, position, name, score, date, timestamp, created_at FROM leaderboard ORDER BY score DESC, date DESC LIMIT ? OFFSET ?",
+                (limit, offset),
+            )
 
-    results = cursor.fetchall()
-    total = cursor.fetchone()[0]
-    conn.close()
+        results = cursor.fetchall()
+        conn.close()
 
-    entries = []
-    for result in results:
-        entries.append({
-            "id": result[0],
-            "game": result[1],
-            "position": result[2],
-            "name": result[3],
-            "score": result[4],
-            "date": result[5],
-            "timestamp": result[6],
-            "created_at": result[7]
-        })
+        entries = []
+        for result in results:
+            entries.append({
+                "id": result[0],
+                "game": result[1],
+                "position": result[2],
+                "name": result[3],
+                "score": result[4],
+                "date": result[5],
+                "timestamp": result[6],
+                "created_at": result[7]
+            })
 
-    return {"entries": entries, "total": total, "limit": limit, "offset": offset}
+        return {"entries": entries, "total": total, "limit": limit, "offset": offset}
+        
+    except Exception as e:
+        conn.close()
+        raise e
 
 
 def get_database_stats():

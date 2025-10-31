@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, FileResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import base64
@@ -12,6 +11,8 @@ from database_simple import (
     get_user,
     get_all_images,
     get_all_users,
+    insert_leaderboard_entry,
+    get_leaderboard,
     reset_database,
     clear_all_data,
     get_database_stats,
@@ -20,104 +21,34 @@ from config import config
 
 app = FastAPI(title="Image & User API", version="1.0.0")
 
-# Montar archivos estáticos
-app.mount("/static", StaticFiles(directory="templates"), name="static")
-
-
-def process_template(
-    template_path: str, request: Request, replacements: dict = None
-) -> str:
+def process_template(template_path: str, request: Request, replacements: dict = None) -> str:
     """
     Procesa un template HTML reemplazando URLs dinámicamente
     """
     with open(template_path, "r", encoding="utf-8") as file:
         html_template = file.read()
-
-    # Obtener URLs dinámicas basadas en el request
+    
+    # Reemplazos automáticos basados en el request
     base_url = config.get_api_base_url(request)
-    users_endpoint = config.get_users_endpoint(request)
-    images_endpoint = config.get_images_endpoint(request)
-
-    print(f"🔄 Processing template: {template_path}")
-    print(f"   Base URL: {base_url}")
-    print(f"   Users endpoint: {users_endpoint}")
-    print(f"   Images endpoint: {images_endpoint}")
-
-    # Lista completa de patrones a reemplazar - TODOS LOS CASOS POSIBLES
-    url_patterns = [
-        # Patrones para usuarios - TODAS LAS VARIACIONES
-        (
-            'this.apiUrl = "http://127.0.0.1:8000/users/";',
-            f'this.apiUrl = "{users_endpoint}";',
-        ),
-        (
-            'this.apiUrl = "http://localhost:8000/users/";',
-            f'this.apiUrl = "{users_endpoint}";',
-        ),
-        (
-            'this.apiUrl = "http://0.0.0.1:8025/users/";',
-            f'this.apiUrl = "{users_endpoint}";',
-        ),
-        # Patrones para imágenes - TODAS LAS VARIACIONES
-        (
-            'this.apiUrl = "http://localhost:8000/images";',
-            f'this.apiUrl = "{images_endpoint}";',
-        ),
-        (
-            'this.apiUrl = "http://127.0.0.1:8000/images";',
-            f'this.apiUrl = "{images_endpoint}";',
-        ),
-        (
-            'this.apiUrl = "http://0.0.0.1:8025/images";',
-            f'this.apiUrl = "{images_endpoint}";',
-        ),
-        (
-            'this.apiUrl = "http://localhost:8000/images/";',
-            f'this.apiUrl = "{images_endpoint}/";',
-        ),
-        (
-            'this.apiUrl = "http://127.0.0.1:8000/images/";',
-            f'this.apiUrl = "{images_endpoint}/";',
-        ),
-        (
-            'this.apiUrl = "http://0.0.0.1:8025/images/";',
-            f'this.apiUrl = "{images_endpoint}/";',
-        ),
-        # Patrones para endpoints específicos - TODAS LAS VARIACIONES
-        ('"http://localhost:8000/images/save"', f'"{base_url}/images/save"'),
-        ('"http://127.0.0.1:8000/images/save"', f'"{base_url}/images/save"'),
-        ('"http://0.0.0.1:8025/images/save"', f'"{base_url}/images/save"'),
-        ("'http://localhost:8000/images/save'", f"'{base_url}/images/save'"),
-        ("'http://127.0.0.1:8000/images/save'", f"'{base_url}/images/save'"),
-        ("'http://0.0.0.1:8025/images/save'", f"'{base_url}/images/save'"),
-        # Patrones genéricos para cualquier puerto y host
-        ("http://localhost:8000/", f"{base_url}/"),
-        ("http://127.0.0.1:8000/", f"{base_url}/"),
-        ("http://0.0.0.1:8025/", f"{base_url}/"),
-        ("http://localhost:8025/", f"{base_url}/"),
-        ("http://127.0.0.1:8025/", f"{base_url}/"),
-        # Comentarios que pueden contener URLs
-        ("// Cambia por tu endpoint", f"// Auto-generated: {base_url}"),
-        ("# Cambia por tu endpoint", f"# Auto-generated: {base_url}"),
-    ]
-
+    
+    # Reemplazos por defecto
+    default_replacements = {
+        'this.apiUrl = "http://127.0.0.1:8000/users/";': f'this.apiUrl = "{config.get_users_endpoint(request)}";',
+        'this.apiUrl = "http://localhost:8000/users/";': f'this.apiUrl = "{config.get_users_endpoint(request)}";',
+        'this.apiUrl = "http://localhost:8000/images";': f'this.apiUrl = "{config.get_images_endpoint(request)}";',
+        '"http://localhost:8000/images/save"': f'"{base_url}/images/save"',
+        '"http://127.0.0.1:8000/images/save"': f'"{base_url}/images/save"',
+    }
+    
     # Agregar reemplazos personalizados si se proporcionan
     if replacements:
-        for old, new in replacements.items():
-            url_patterns.append((old, new))
-
+        default_replacements.update(replacements)
+    
     # Aplicar todos los reemplazos
-    replacements_made = 0
-    for old_text, new_text in url_patterns:
-        if old_text in html_template:
-            html_template = html_template.replace(old_text, new_text)
-            replacements_made += 1
-            print(f"   ✅ Replaced: {old_text[:50]}... -> {new_text[:50]}...")
-
-    print(f"   📊 Total replacements made: {replacements_made}")
-
+    for old_text, new_text in default_replacements.items():
+        html_template = html_template.replace(old_text, new_text)
+    
     return html_template
-
 
 # Configurar CORS para permitir todas las conexiones (solo para desarrollo)
 app.add_middleware(
@@ -137,6 +68,19 @@ class UserCreate(BaseModel):
     username: str
     email: str
     time: str
+
+
+class LeaderboardEntry(BaseModel):
+    position: int
+    name: str
+    score: int
+    date: str
+
+
+class CoctelesData(BaseModel):
+    game: str
+    timestamp: str
+    leaderboard: list[LeaderboardEntry]
 
 
 @app.post("/images/")
@@ -287,11 +231,6 @@ async def root():
     return {"message": "Image & User API is running"}
 
 
-@app.get("/favicon.ico", include_in_schema=False)
-async def favicon():
-    return FileResponse("favicon.ico")
-
-
 @app.post("/images/gemini")
 async def upload_image_gemini_format(data: dict):
     """
@@ -418,7 +357,6 @@ async def test_image_endpoint(data: dict):
 
 # ==================== DATABASE MANAGEMENT ENDPOINTS ====================
 
-
 @app.get("/database/stats")
 async def get_db_stats():
     """
@@ -429,12 +367,10 @@ async def get_db_stats():
         return {
             "success": True,
             "message": "Database statistics retrieved successfully",
-            "data": stats,
+            "data": stats
         }
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Error getting database stats: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Error getting database stats: {str(e)}")
 
 
 @app.post("/database/reset")
@@ -446,24 +382,22 @@ async def reset_db():
     try:
         # Obtener estadísticas antes del reset
         stats_before = get_database_stats()
-
+        
         # Resetear la base de datos
         reset_database()
-
+        
         # Obtener estadísticas después del reset
         stats_after = get_database_stats()
-
+        
         return {
             "success": True,
             "message": "Database reset successfully",
             "warning": "All data has been permanently deleted",
             "stats_before": stats_before,
-            "stats_after": stats_after,
+            "stats_after": stats_after
         }
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Error resetting database: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Error resetting database: {str(e)}")
 
 
 @app.post("/database/clear")
@@ -475,24 +409,22 @@ async def clear_db():
     try:
         # Obtener estadísticas antes de limpiar
         stats_before = get_database_stats()
-
+        
         # Limpiar todos los datos
         clear_all_data()
-
+        
         # Obtener estadísticas después de limpiar
         stats_after = get_database_stats()
-
+        
         return {
             "success": True,
             "message": "Database cleared successfully",
             "warning": "All data has been permanently deleted",
             "stats_before": stats_before,
-            "stats_after": stats_after,
+            "stats_after": stats_after
         }
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Error clearing database: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Error clearing database: {str(e)}")
 
 
 @app.delete("/database/images")
@@ -502,25 +434,25 @@ async def clear_images():
     """
     try:
         from database_simple import get_connection
-
+        
         conn = get_connection()
         cursor = conn.cursor()
-
+        
         # Contar imágenes antes
         cursor.execute("SELECT COUNT(*) FROM images")
         count_before = cursor.fetchone()[0]
-
+        
         # Eliminar todas las imágenes
         cursor.execute("DELETE FROM images")
         cursor.execute("DELETE FROM sqlite_sequence WHERE name='images'")
-
+        
         conn.commit()
         conn.close()
-
+        
         return {
             "success": True,
             "message": f"All {count_before} images deleted successfully",
-            "images_deleted": count_before,
+            "images_deleted": count_before
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting images: {str(e)}")
@@ -533,28 +465,150 @@ async def clear_users():
     """
     try:
         from database_simple import get_connection
-
+        
         conn = get_connection()
         cursor = conn.cursor()
-
+        
         # Contar usuarios antes
         cursor.execute("SELECT COUNT(*) FROM users")
         count_before = cursor.fetchone()[0]
-
+        
         # Eliminar todos los usuarios
         cursor.execute("DELETE FROM users")
         cursor.execute("DELETE FROM sqlite_sequence WHERE name='users'")
-
+        
         conn.commit()
         conn.close()
-
+        
         return {
             "success": True,
             "message": f"All {count_before} users deleted successfully",
-            "users_deleted": count_before,
+            "users_deleted": count_before
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting users: {str(e)}")
+
+
+# ==================== COCTELES/LEADERBOARD ENDPOINTS ====================
+
+
+@app.post("/cocteles")
+async def receive_cocteles_data(data: CoctelesData):
+    """
+    Endpoint para recibir datos de cocteles con leaderboard
+    Formato esperado: {
+        "game": "Elixir de Zambo",
+        "timestamp": "2025-10-30T...",
+        "leaderboard": [
+            {
+                "position": 1,
+                "name": "Juan",
+                "score": 1250,
+                "date": "2025-10-30T..."
+            }
+        ]
+    }
+    """
+    try:
+        saved_entries = []
+        
+        # Procesar cada entrada del leaderboard
+        for entry in data.leaderboard:
+            entry_id = insert_leaderboard_entry(
+                game=data.game,
+                position=entry.position,
+                name=entry.name,
+                score=entry.score,
+                date=entry.date,
+                timestamp=data.timestamp
+            )
+            
+            saved_entries.append({
+                "id": entry_id,
+                "position": entry.position,
+                "name": entry.name,
+                "score": entry.score
+            })
+        
+        return {
+            "success": True,
+            "message": f"Leaderboard data saved successfully for game: {data.game}",
+            "game": data.game,
+            "timestamp": data.timestamp,
+            "entries_saved": len(saved_entries),
+            "saved_entries": saved_entries
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error saving leaderboard data: {str(e)}")
+
+
+@app.get("/cocteles/leaderboard")
+async def get_cocteles_leaderboard(game: str = None, limit: int = 50, offset: int = 0):
+    """
+    Obtener datos del leaderboard de cocteles
+    - game: filtrar por juego específico (opcional)
+    - limit: número máximo de entradas (default: 50, max: 100)
+    - offset: número de entradas a saltar (default: 0)
+    """
+    # Validar límites
+    if limit > 100:
+        limit = 100
+    if limit < 1:
+        limit = 1
+    if offset < 0:
+        offset = 0
+
+    try:
+        result = get_leaderboard(game=game, limit=limit, offset=offset)
+        
+        return {
+            "success": True,
+            "data": result["entries"],
+            "pagination": {
+                "total": result["total"],
+                "limit": result["limit"],
+                "offset": result["offset"],
+                "has_more": (result["offset"] + result["limit"]) < result["total"],
+            },
+            "filter": {
+                "game": game if game else "all"
+            }
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving leaderboard: {str(e)}")
+
+
+@app.delete("/cocteles/leaderboard")
+async def clear_leaderboard():
+    """
+    Eliminar todas las entradas del leaderboard
+    """
+    try:
+        from database_simple import get_connection
+        
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        # Contar entradas antes
+        cursor.execute("SELECT COUNT(*) FROM leaderboard")
+        count_before = cursor.fetchone()[0]
+        
+        # Eliminar todas las entradas
+        cursor.execute("DELETE FROM leaderboard")
+        cursor.execute("DELETE FROM sqlite_sequence WHERE name='leaderboard'")
+        
+        conn.commit()
+        conn.close()
+        
+        return {
+            "success": True,
+            "message": f"All {count_before} leaderboard entries deleted successfully",
+            "entries_deleted": count_before
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting leaderboard: {str(e)}")
 
 
 # ==================== TEMPLATE ENDPOINTS ====================
@@ -568,16 +622,22 @@ async def ranking(request: Request):
     html_content = process_template("templates/ranking.html", request)
     return HTMLResponse(content=html_content)
 
-
 @app.get("/photos", response_class=HTMLResponse)
 async def photos(request: Request):
     """
     Endpoint que renderiza una página HTML con la galería de fotos
     """
     print("user - photos endpoint accessed")
-    with open("templates/photos.html", "r", encoding="utf-8") as file:
-        html_template = file.read()
-    return HTMLResponse(content=html_template)
+    html_content = process_template("templates/photos.html", request)
+    return HTMLResponse(content=html_content)
+
+@app.get("/cocteles/ranking", response_class=HTMLResponse)
+async def cocteles_ranking(request: Request):
+    """
+    Endpoint que renderiza una página HTML con el ranking de cocteles
+    """
+    html_content = process_template("templates/cocteles_ranking.html", request)
+    return HTMLResponse(content=html_content)
 
 
 if __name__ == "__main__":

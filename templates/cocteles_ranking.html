@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranking de Cocteles</title>
+    <style>
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Rajdhani', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 25%, #0d4d0d 50%, #1a1a1a 75%, #000000 100%);
+        background-size: 400% 400%;
+        animation: dynamicBackground 12s ease-in-out infinite;
+        color: #ff8c00;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      @keyframes dynamicBackground {
+        0%, 100% { background-position: 0% 50%; }
+        33% { background-position: 100% 0%; }
+        66% { background-position: 0% 100%; }
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          radial-gradient(circle at 15% 25%, rgba(255, 140, 0, 0.15) 0%, transparent 40%),
+          radial-gradient(circle at 85% 75%, rgba(34, 139, 34, 0.12) 0%, transparent 40%),
+          radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.08) 0%, transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+        animation: ambientGlow 8s ease-in-out infinite alternate;
+      }
+
+      @keyframes ambientGlow {
+        0% { opacity: 0.7; }
+        100% { opacity: 1; }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        font-family: 'Orbitron', monospace;
+        font-weight: 900;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        text-align: center;
+        background: linear-gradient(45deg, #ff8c00, #228b22, #ff8c00);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 3s ease-in-out infinite;
+        text-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      h1::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #ff8c00, #228b22, #ff8c00, transparent);
+        border-radius: 2px;
+      }
+
+      .game-selector {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .game-selector select {
+        background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+        color: #ff8c00;
+        border: 2px solid #228b22;
+        border-radius: 10px;
+        padding: 12px 20px;
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      .game-selector select:hover {
+        border-color: #ff8c00;
+        box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+      }
+
+      .ranking-table {
+        background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+        border: 2px solid transparent;
+        border-radius: 20px;
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.7),
+          inset 0 1px 0 rgba(255, 140, 0, 0.1);
+      }
+
+      .ranking-table::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #ff8c00, #228b22, #ff8c00, #228b22);
+        background-size: 300% 300%;
+        border-radius: 20px;
+        z-index: -1;
+        animation: borderFlow 4s linear infinite;
+        opacity: 0.8;
+      }
+
+      @keyframes borderFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Rajdhani', sans-serif;
+      }
+
+      th {
+        background: linear-gradient(135deg, #ff8c00, #228b22);
+        color: #000;
+        padding: 15px;
+        text-align: center;
+        font-family: 'Orbitron', monospace;
+        font-weight: 700;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid #228b22;
+      }
+
+      td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+        font-size: 18px;
+        font-weight: 600;
+        transil 0.3s ease;
+      }
+
+      tr:hover td {
+        background: rgba(255, 140, 0, 0.1);
+        color: #fff;
+      }
+
+      .position {
+        font-family: 'Orbitron', monospace;
+        font-weight: 900;
+        font-size: 20px;
+      }
+
+      .position.first {
+        color: #ffd700;
+        text-shadow: 0 0 10px #ffd700;
+      }
+
+      .position.second {
+        color: #c0c0c0;
+        text-shadow: 0 0 10px #c0c0c0;
+      }
+
+      .position.third {
+        color: #cd7f32;
+        text-shadow: 0 0 10px #cd7f32;
+      }
+
+      .name {
+        font-weight: 700;
+        color: #ff8c00;
+      }
+
+      .score {
+        font-family: 'Orbitron', monospace;
+        font-weight: 700;
+        color: #228b22;
+        font-size: 20px;
+      }
+
+      .date {
+        color: #999;
+        font-size: 14px;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 80px 20px;
+        font-size: 28px;
+        font-family: 'Orbitron', monospace;
+        font-weight: 600;
+        color: #ff8c00;
+        text-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+        animation: loadingPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes loadingPulse {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.05);
+        }
+      }
+
+      .error {
+        text-align: center;
+        padding: 40px;
+        color: #ff4444;
+        background: linear-gradient(145deg, #2a0000, #1a0000);
+        border: 2px solid #ff4444;
+        border-radius: 20px;
+        margin: 30px 0;
+        font-family: 'Orbitron', monospace;
+        font-weight: 600;
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.7),
+          0 0 25px rgba(255, 68, 68, 0.3);
+        font-size: 18px;
+        text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 60px;
+        color: #ff8c00;
+        font-size: 22px;
+        font-family: 'Orbitron', monospace;
+        text-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+      }
+
+      /* Efectos de partículas */
+      .floating-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .particle {
+        position: absolute;
+        font-size: 18px;
+        opacity: 0.7;
+        animation: floatParticle 8s ease-in-out infinite;
+      }
+
+      .particle.orange { color: #ff8c00; }
+      .particle.green { color: #228b22; }
+
+      @keyframes floatParticle {
+        0%, 100% {
+          transform: translateY(0px) rotate(0deg);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translateY(-30px) rotate(180deg);
+          opacity: 1;
+        }
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+          margin-bottom: 30px;
+        }
+
+        .ranking-table {
+          padding: 20px;
+          overflow-x: auto;
+        }
+
+        table {
+          min-width: 600px;
+        }
+
+        th, td {
+          padding: 10px 8px;
+          font-size: 14px;
+        }
+
+        .position {
+          font-size: 16px;
+        }
+
+        .score {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="floating-elements">
+      <!-- Partículas flotantes estáticas -->
+      <div
+        class="particle orange"
+        style="top: 15%; left: 10%; animation-delay: 0s"
+      >
+        🍹
+      </div>
+      <div
+        class="particle green"
+        style="top: 25%; left: 85%; animation-delay: 1s"
+      >
+        🥃
+      </div>
+      <div
+        class="particle orange"
+        style="top: 45%; left: 5%; animation-delay: 2s"
+      >
+        🍸
+      </div>
+      <div
+        class="particle green"
+        style="top: 65%; left: 90%; animation-delay: 3s"
+      >
+        🍷
+      </div>
+      <div
+        class="particle orange"
+        style="top: 75%; left: 15%; animation-delay: 4s"
+      >
+        🍹
+      </div>
+      <div
+        class="particle green"
+        style="top: 35%; left: 75%; animation-delay: 5s"
+      >
+        🥂
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>🍹 RANKING DE COCTELES 🍹</h1>
+
+      <div class="game-selector">
+        <select id="gameFilter" onchange="filterByGame()">
+          <option value="">Todos los juegos</option>
+        </select>
+      </div>
+
+      <div id="loading" class="loading">
+        ⚡ Cargando ranking de cocteles... ⚡
+      </div>
+      <div id="error" class="error" style="display: none"></div>
+
+      <div id="ranking-container" class="ranking-table" style="display: none">
+        <table>
+          <thead>
+            <tr>
+              <th>Posición</th>
+              <th>Nombre</th>
+              <th>Puntuación</th>
+              <th>Fecha</th>
+              <th>Juego</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="no-data" class="no-data" style="display: none">
+        🍹 No hay datos de ranking disponibles 🍹
+      </div>
+    </div>
+
+    <script>
+      let allData = [];
+      let currentGame = "";
+
+      async function fetchRankingData() {
+        try {
+          const response = await fetch("/cocteles/leaderboard?limit=100");
+
+          if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (data.success && data.data) {
+            allData = data.data;
+            populateGameFilter();
+            renderRanking(allData);
+          } else {
+            throw new Error("Formato de respuesta inválido");
+          }
+        } catch (error) {
+          showError(`Error al cargar el ranking: ${error.message}`);
+        } finally {
+          document.getElementById("loading").style.display = "none";
+        }
+      }
+
+      function populateGameFilter() {
+        const gameFilter = document.getElementById("gameFilter");
+        const games = [...new Set(allData.map((entry) => entry.game))];
+
+        // Limpiar opciones existentes (excepto "Todos los juegos")
+        gameFilter.innerHTML = '<option value="">Todos los juegos</option>';
+
+        games.forEach((game) => {
+          const option = document.createElement("option");
+          option.value = game;
+          option.textContent = game;
+          gameFilter.appendChild(option);
+        });
+      }
+
+      function filterByGame() {
+        const gameFilter = document.getElementById("gameFilter");
+        currentGame = gameFilter.value;
+
+        const filteredData = currentGame
+          ? allData.filter((entry) => entry.game === currentGame)
+          : allData;
+
+        renderRanking(filteredData);
+      }
+
+      function renderRanking(data) {
+        const container = document.getElementById("ranking-container");
+        const tbody = document.getElementById("ranking-tbody");
+        const noDataDiv = document.getElementById("no-data");
+
+        if (data.length === 0) {
+          container.style.display = "none";
+          noDataDiv.style.display = "block";
+          return;
+        }
+
+        // Ordenar por score descendente
+        const sortedData = data.sort((a, b) => b.score - a.score);
+
+        tbody.innerHTML = sortedData
+          .map((entry, index) => {
+            const actualPosition = index + 1;
+            let positionClass = "";
+            let positionIcon = "";
+
+            if (actualPosition === 1) {
+              positionClass = "first";
+              positionIcon = "🥇";
+            } else if (actualPosition === 2) {
+              positionClass = "second";
+              positionIcon = "🥈";
+            } else if (actualPosition === 3) {
+              positionClass = "third";
+              positionIcon = "🥉";
+            } else {
+              positionIcon = actualPosition;
+            }
+
+            const formattedDate = new Date(entry.date).toLocaleDateString(
+              "es-ES",
+              {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              }
+            );
+
+            return `
+                    <tr>
+                        <td class="position ${positionClass}">${positionIcon}</td>
+                        <td class="name">${entry.name}</td>
+                        <td class="score">${entry.score.toLocaleString()}</td>
+                        <td class="date">${formattedDate}</td>
+                        <td>${entry.game}</td>
+                    </tr>
+                `;
+          })
+          .join("");
+
+        container.style.display = "block";
+        noDataDiv.style.display = "none";
+      }
+
+      function showError(message) {
+        const errorDiv = document.getElementById("error");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+      }
+
+      // Cargar datos al cargar la página
+      document.addEventListener("DOMContentLoaded", fetchRankingData);
+
+      // Actualizar datos cada 30 segundos
+      setInterval(fetchRankingData, 30000);
+    </script>
+  </body>
+</html>
